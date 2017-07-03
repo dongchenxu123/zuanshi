@@ -11,7 +11,7 @@ import PeopleDirection from '../views/addfastTest/peopleDirection';
 import SimilarDirection from '../views/addfastTest/similarDirection';
 import LikeMyDirection from '../views/addfastTest/likemybabyDirection';
 import CombinationsView from '../views/addfastTest/combinations';
-export const routes = [
+export const AddTestRoutes = [
 	{
 		path: '/add/fast/1',
 		component: AddOriginalityView

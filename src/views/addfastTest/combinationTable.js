@@ -3,6 +3,9 @@ import Table from 'qnui/lib/table';
 import Loading from 'qnui/lib/loading';
 import EditInline from './editInline';
 import Button from 'qnui/lib/button';
+import Checkbox from 'qnui/lib/checkbox';
+
+
 const titleDirection = {
 	 		'0' : '通投',
       '32768' : '智能定向',
@@ -11,7 +14,8 @@ const titleDirection = {
       '262144' : '相似宝贝定向-喜欢我的宝贝的人群',
       '8192' : '群体定向',
       '64' : '兴趣点定向',
-      '16384' : '营销场景定向'
+      '16384' : '营销场景定向',
+			'128' : '达摩盘定向'
 }
 const crowdValue = {
 	    '1' : '自主店铺',
@@ -37,41 +41,69 @@ class CombinationTable extends React.Component {
 	constructor () {
     super()
     this.state={
-      cpms: 0
-    }
+      cpms: 0,
+			CreativesList: []
+		}
   }
-  renderAdzoneName (value, index, record) {
-    return (<span>{record.Adzone.Name}</span>)
+  renderAdzoneName (record) {
+    return (<span>{record.Name}</span>)
   }
-  rendercreativesName (value, index, record) {
-    return (<span>{record.Creative.Name}</span>)
-  }
-  rendercreativesPic (value, index, record) {
-    return (<img src={record.Creative.ImagePath} style={{width:300, height: 'auto'}}/>)
-  }
-  renderCreativeSize (value, index, record) {
-		return (<div><span>{record.Creative.CreativeSize.Width}</span> * <span>{record.Creative.CreativeSize.Height}</span></div>)
+	onChangeCreatives (id, CreativesId, checked) {
+		this.props.sendSelectCreatives(id, CreativesId, checked)
+
+
 	}
-	rendersubCrowds (value, index, record) {
-    return (
+  rendercreativesName (value, index, record) {
+		var Creatives = record.Creatives
+		var id = record.Key
+		 var checked_list = record.checked_list
+		return (
+			<div>
+					{
+						Creatives
+						? Creatives.map((item, index) => {
+              let checked = (checked_list|| []).indexOf(item.Id)
+							return (
+								<div style={{overflow: 'hidden'}} key={id + '_' + item.Id} style={{marginRight: '10px'}}>
+								  <img src={item.ImagePath} style={{width:'150px', height:'auto', marginRight: '10px', marginBottom: '10px'}}/>
+									<Checkbox onChange={this.onChangeCreatives.bind(this, id, item.Id)} checked={checked > -1}/>
+								</div>
+							)
+						})
+						: <div>loading...</div>
+					}
+			</div>
+		)
+
+  }
+ rendersubCrowds (value, index, record) {
+	 var Crowds = record.Crowds
+	 var key = record.Key
+   return (
        <div>
-         { record.Crowds
-					 ? record.Crowds.map((item,index) => {
+         { Crowds
+					 ? Crowds.map((item,index) => {
+
              return (
                <div key={index} style={{paddingBottom: '8px', lineHeight: '24px'}}>
-								 <span>{titleDirection[item.crowd_type]}&nbsp;&nbsp;</span>
-								 <span>{item.sub_crowds ? ':' : ''}&nbsp;&nbsp;</span>
-								 {item.crowd_value ?  <span>{crowdValue[item.crowd_value]} : &nbsp;&nbsp;</span> : ''}
-								 {
-									 item.crowd_type == 16384
-									 ? ( item.sub_crowds ? item.sub_crowds.map((v, i) => {
-						 			return (<span style={{color: '#333'}} key={i}>{subCrowdValue[v.sub_crowd_value]}&nbsp;&nbsp;</span>)
-								   }) : null)
-									 : ( item.sub_crowds ? item.sub_crowds.map((v, i) => {
-									return (<span style={{color: '#333'}} key={i}>{v.sub_crowd_name}&nbsp;&nbsp;</span>)
-								   }) : null)
-								 }
-	             </div>
+							   <div>
+									 <span style={{float: 'left'}}>{titleDirection[item.crowd_type]}&nbsp;&nbsp;</span>
+									 <EditInline sendcpm={this.sendcpm.bind(this, Crowds, key, item.Crowds_zuanshi_id)} cpm={item.matrix_price[0].Price/100}/>
+								 </div>
+								 <div style={{clear: 'both'}}>
+								 	{item.crowd_value && item.crowd_type != 128 ?  <span>{crowdValue[item.crowd_value]} : &nbsp;&nbsp;</span> : ''}
+									{item.crowd_name ?  <span>{item.crowd_name}&nbsp;</span> : ''}
+									{
+										item.crowd_type == 16384
+										? ( item.sub_crowds ? item.sub_crowds.map((v, i) => {
+									 return (<span style={{color: '#333'}} key={i}>{subCrowdValue[v.sub_crowd_value]}&nbsp;&nbsp;</span>)
+										}) : null)
+										: ( item.sub_crowds ? item.sub_crowds.map((v, i) => {
+									 return (<span style={{color: '#333'}} key={i}>{v.sub_crowd_name}&nbsp;&nbsp;</span>)
+										}) : null)
+									}
+								 </div>
+							</div>
              )
             })
 						: <div>暂无定向</div>
@@ -79,40 +111,32 @@ class CombinationTable extends React.Component {
        </div>
      )
    }
-	sendcpm (sendvalue, record) {
-		this.props.cpmData(sendvalue, record)
+	sendcpm (sendvalue, record, id, Crowds_zuanshi_id) {
+		this.props.cpmData(id, record, sendvalue, Crowds_zuanshi_id)
 	}
-	rendercpmInput (value, index, record) {
-		return (
-			<EditInline sendcpm={this.sendcpm.bind(this, record)} cpm={record.cpm}/>
-		)
-	 }
+	// rendercpmInput (value, index, record) {
+	// 	return (
+	// 		<EditInline sendcpm={this.sendcpm.bind(this, record)} cpm={record.cpm}/>
+	// 	)
+	//  }
+	groupHeaderRender (record) {
+		return (<div>{record.Adzone.Name}</div>)
+	}
 	render () {
     var data = this.props.data
-    return (
+		return (
       <div>
         {
           data.length > 0
-          ? <Table dataSource={data}
-                     rowSelection={this.props.rowSelection}
-                               >
-                <Table.ColumnGroup title='资源位'>
-                  <Table.Column title="资源位名称" cell={this.renderAdzoneName.bind(this)}/>
-                </Table.ColumnGroup>
-                <Table.ColumnGroup title='创意'>
-                  <Table.Column title="创意名称" cell={this.rendercreativesName.bind(this)}/>
-                  <Table.Column title="创意图片" cell={this.rendercreativesPic.bind(this)} width={350}/>
-                  <Table.Column title="创意尺寸" cell={this.renderCreativeSize.bind(this)}/>
-                </Table.ColumnGroup>
-                <Table.Column title="定向设置" cell={this.rendersubCrowds.bind(this)}/>
-                <Table.Column title="CPM出价" cell={this.rendercpmInput.bind(this)}/>
-            </Table>
-          : <div style={{margin: '50px auto', textAlign: 'center'}}>暂无数据</div>
+          ? <Table dataSource={data} primaryKey="Key">
+								<Table.Column  title="资源位" dataIndex="Adzone" cell={this.renderAdzoneName.bind(this)}/>
+								<Table.Column  cell={this.rendersubCrowds.bind(this)} title="定向"/>
+								<Table.Column  cell={this.rendercreativesName.bind(this)} title="创意"/>
+						</Table>
+          : <div style={{margin: '50px auto', width: '200px'}}><Loading/></div>
         }
       </div>
-
-
-    )
+   )
   }
 }
 

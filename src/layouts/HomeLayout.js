@@ -5,7 +5,7 @@ import {
   Link
  } from 'react-router-dom'
 import createHistory from 'history/createHashHistory'
-import { homeUrl,fastList } from '../help/linkUrl';
+import { homeUrl,fastList,userUrl } from '../help/linkUrl';
 import '../styles/footer.css';
 import Button from 'qnui/lib/button';
 const history = createHistory()
@@ -48,8 +48,9 @@ class HomeLayout extends React.Component {
           }
           <Router basename={browsername} history={history}>
             <div>
-                <div>
-                  <Link to={homeUrl}><img src={imgUrl} style={{height: '55px', margin: '20px 15px 5px 15px'}}/></Link>
+                <div style={{overflow: 'hidden'}}>
+                  <Link to={homeUrl} style={{float: 'left'}}><img src={imgUrl} style={{height: '55px', margin: '20px 15px 5px 15px'}}/></Link>
+                  <Link to={userUrl} style={{float: 'right',height: '55px',lineHeight: '55px', margin: '20px 15px 5px 15px'}}><Button>用户中心</Button></Link>
                 </div>
                   {
                     newurl == '?source=qianniupc'
@@ -60,7 +61,9 @@ class HomeLayout extends React.Component {
                     : null
                   }
                 {routes.map((route, index) => (
-    	            	<Route key={index} exact={route.exact} path={route.path} component={route.component}/>
+    	            	<Route key={index} exact={route.exact} path={route.path} render={props => (
+    <route.component {...props} routes={route.routes}/>
+  )} />
     	            ))}
             </div>
          </Router>

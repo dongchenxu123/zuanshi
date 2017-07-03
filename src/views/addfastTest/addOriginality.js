@@ -74,7 +74,7 @@ class AddOriginalityView extends React.Component {
 	}
 	onSelectAll (selected, records) {
 		let {rowSelection} = this.state;
-		var creativesItem = this.state.creativesItem;
+		var creativesItem = this.state.creativesItem = [];
 	  if(selected) {
 			for(var i=0; i<records.length; i++) {
 				if(rowSelection.selectedRowKeys.indexOf(records[i].Id) == -1) {
@@ -117,13 +117,12 @@ class AddOriginalityView extends React.Component {
 			rowSelection,
 			creativesItem: creativesItem
 		 });
-
+   this.loadOrders(1)
 
 	}
  componentDidMount () {
 	 this.isMount=true
-	 this.loadOrders(1)
-}
+	}
  componentWillUnmount() {
 	 this.isMount=false
  }

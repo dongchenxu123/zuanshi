@@ -3,7 +3,7 @@ import React from 'react';
 import { Row, Col } from 'qnui/lib/grid';
 import Button from 'qnui/lib/button';
 import { Link } from 'react-router-dom';
-import { fastList, dataWarnHome } from '../help/linkUrl';
+import { fastList, dataWarnHome, dayTestHome } from '../help/linkUrl';
 import Dialog from 'qnui/lib/dialog'
 const picData = [{
 	id: 1,
@@ -22,7 +22,7 @@ const picData = [{
 	pic: 'https://img.alicdn.com/imgextra/i1/669952568/TB2Cj4dutRopuFjSZFtXXcanpXa-669952568.jpg',
 	title: '日常投放',
 	content: '让优质的推广组合持续贡献店铺优质流量来源，实时监控数据让效果无限接近最优值',
-	link:''
+	link: dayTestHome
 }]
 
 
@@ -47,6 +47,14 @@ class TestListView extends React.Component {
           visible: false
       })
   }
+renderLinkBtn (item) {
+    if(item.id != 2) {
+		return(<div><Link to={item.link}><Button type="primary">我要测试</Button></Link></div>)
+	}
+	if (item.id == 2) {
+		return(<div><Link to={item.link}><Button type="primary">添加监控</Button></Link></div>)
+	}
+}
  render () {
 		return (
       <div className='panel panel-default' style={{margin: '10px'}}>
@@ -60,10 +68,7 @@ class TestListView extends React.Component {
 											<div style={{padding: '16px 0', fontSize: '16px'}}>{item.title}</div>
 											<div style={{color: 'rgb(111, 111, 111)', width: '250px', margin: '0 auto 32px'}}>{item.content}</div>
 											{
-												item.id != 3
-												? <div><Link to={item.link}><Button type="primary">我要测试</Button></Link></div>
-												: <Button onClick={this.onOpen.bind(this)} type="primary" >我要测试</Button>
-
+												this.renderLinkBtn(item)
 											}
 										</Col>
 									)

@@ -65,9 +65,16 @@ class AddTestPlanLayout extends React.Component {
       Row8value: {},
       Row9value: {},
       tiaoguoObj:{},
-      uvzizhuObj: {}
+      uvzizhuObj: {},
+      editPriceData: [],
+      peopleIsexpandable: false,
+      yixiangIsexpandable: false,
+      activeIsexpandable: false,
+      dmpArr: [],
+      dmpObj: {}
     }
   }
+
   commonData (step) {
     if(step.step == 1) {
       var select = step.select
@@ -109,13 +116,27 @@ class AddTestPlanLayout extends React.Component {
       }
       if (step.type === 'combination') {
         var combinationdata = {
-          combinationItem: step.select,
           combinationData: step.combinationData,
-          data: step.data
+          combinationObj: step.editList
+          // data: step.data
         }
         this.setState({
-          combinationItem: step.select,
           combinationdata: combinationdata
+        })
+      }
+      if(step.type === 'isexpandvalue') {
+        this.setState({
+          peopleIsexpandable: step.isexpandvalue
+        })
+      }
+      if(step.type==='yixiangchecked') {
+        this.setState({
+          yixiangIsexpandable: step.yixiangchecked
+        })
+      }
+      if(step.type==='activeChecked') {
+        this.setState({
+          activeIsexpandable: step.activeChecked
         })
       }
       if (step.type === 'people') {
@@ -123,11 +144,22 @@ class AddTestPlanLayout extends React.Component {
           selectTagsId: step.selectTagsId,
           selectTagsName: step.selectTagsName,
           peoplecrowdType: step.peoplecrowdType
+
         }
         var peopleObj = {
           crowd_type: step.peoplecrowdType,
-          sub_crowds: step.selectTagsName
+          sub_crowds: step.selectTagsName,
+          expandable: this.state.peopleIsexpandable
         }
+      }
+      if (step.type === 'dmp') {
+        var dmpObj = {
+          selectId: step.select,
+        }
+        this.setState({
+          dmpObj: dmpObj,
+          dmpArr: step.dpmArr
+        })
       }
       if (step.type === 'zizhuuv') {
         var uvzizhuObj = {
@@ -190,7 +222,8 @@ class AddTestPlanLayout extends React.Component {
           startDates: step.startDates,
           startTime: step.startTime,
           endTime: step.endTime,
-          speed_type: step.speed_type
+          speed_type: step.speed_type,
+          adgroupModal: step.adgroupModal
         }
         this.setState({
           formData: formData
@@ -266,16 +299,6 @@ class AddTestPlanLayout extends React.Component {
           tongtouObj: tongtou
         })
       }
-
-
-      // if(step.tongtouchecked == true && step.type === 'tongtou') {
-      //   var obj = {
-      //     crowd_type: 0
-      //   }
-      //    this.setState({
-      //      tongtouObj: obj
-      //    })
-      //  }
       if(step.type === 'zhineng'){
         var obj = {
           crowd_type: 32768
@@ -314,6 +337,7 @@ class AddTestPlanLayout extends React.Component {
         this.setState({
           peopleDirection: peopleDirection,
           peopleObj: peopleObj
+
         })
       }
 
@@ -330,6 +354,11 @@ class AddTestPlanLayout extends React.Component {
       })
     }
 
+    }
+    if(step.step == 'editMax_price') {
+      this.setState({
+        editPriceData: step.editRow
+      })
     }
     if(step.step == 4) {
       var selectArea = step.allAreas
@@ -354,18 +383,13 @@ class AddTestPlanLayout extends React.Component {
     }
     return (
 	     <div className='home'>
-    			<Router basename={browsername}>
-    				<div>
-    	            {routes.map((route, index) => {
-                    let Component = route.component
-                    let child = () => <Component  commonData={self.commonData.bind(this)}
-                                        data={this.state}/>
+    	            {this.props.routes.map((route, index) => {
                     return (
-                      <Route key={index} exact={route.exact} path={route.path} component={child}/>
+                      <Route key={index} exact={route.exact} path={route.path} render={props => (
+                        <route.component {...props}  commonData={self.commonData.bind(this)}   data={this.state} />
+                      )} />
                     )
                   })}
-            </div>
-         </Router>
        </div>
 		)
   }

@@ -39,13 +39,13 @@ class SetdirectionView extends React.Component {
 	    console.log(error);
 	  });
 	  var newchecked = this.props.data.checked
-		if(newchecked != undefined) {
-			this.setState({
-				tongtouchecked: newchecked
-			})
-		} else if (newchecked == undefined) {
-			newchecked = this.state.tongtouchecked
-		}
+		// if(newchecked != undefined) {
+		// 	this.setState({
+		// 		tongtouchecked: newchecked
+		// 	})
+		// } else if (newchecked == undefined) {
+		// 	newchecked = this.state.tongtouchecked
+		// }
 		var zhinengchecked = this.props.data.zhinengchecked
 			this.setState({
 				tongtouchecked: newchecked,
@@ -62,11 +62,21 @@ class SetdirectionView extends React.Component {
 		this.setState({
 			tongtouchecked: checked
 		})
+		var step = 3
+		var crowdType = 0
+		var type = 'tongtou'
+		var tongtouchecked = checked
+		this.props.commonData({step, crowdType, tongtouchecked, type})
 	}
 	changezhineng (value) {
 		this.setState({
 			zhinengchecked: value
 		})
+		var step = 3
+		var zhinengcrowdType = 32768
+		var type = 'zhineng'
+		var zhinengchecked = value
+		this.props.commonData({step, zhinengcrowdType, zhinengchecked, type})
 	}
   tostep4() {
 		history.push(addfastTestStep4)
@@ -100,7 +110,7 @@ class SetdirectionView extends React.Component {
 			return (<Switch checked={this.state.tongtouchecked} onChange={this.onChange.bind(this)}/>)
 		} else if (item.Type == 32768) {
 			return (<Switch checked={this.state.zhinengchecked} onChange={this.changezhineng.bind(this)}/>)
-		} else if (item.Type == 128 || item.Type == 64) {
+		} else if (item.Type == 64) {
 			return null
 		}
 		else {
@@ -119,7 +129,7 @@ class SetdirectionView extends React.Component {
 			return (
 				<Row className="demo-row" key={item.Type} style={{marginBottom: '8px'}}>
 				 {
-					 item.Type == 128 || item.Type == 64
+					 item.Type == 64
 					 ? null
 					 : <Col fixedSpan="8"><div className="demo-col-inset">{item.Name}</div></Col>
 
@@ -152,7 +162,7 @@ class SetdirectionView extends React.Component {
 								return (
 									<Row className="demo-row" key={item.Type} style={{marginBottom: '8px'}}>
 									 {
-										 item.Type == 128 || item.Type == 64
+										 item.Type == 64
 										 ? null
 										 : <Col fixedSpan="8"><div className="demo-col-inset">{item.Name}</div></Col>
 
@@ -193,6 +203,7 @@ class SetdirectionView extends React.Component {
 						checked={this.props.data.checked}
 						tongtouObj={this.props.data.tongtouObj}
 						zhinengObj={this.props.data.zhinengObj}
+						dmpArr={this.props.data.dmpArr}
 						/>
 			 <div className="panel-footer" style={{overflow: 'hidden', backgroundColor: '#fff'}}>
 				 <div style={{float: 'right'}}>

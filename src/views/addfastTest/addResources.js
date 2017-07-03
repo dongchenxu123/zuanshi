@@ -69,7 +69,7 @@ class AddResourcesView extends React.Component {
 	}
 	onSelectAll (selected, records) {
 		let {rowSelection} = this.state;
-		var AdzonesItem = this.state.AdzonesItem;
+		var AdzonesItem = this.state.AdzonesItem = [];
 		if(selected) {
 			for(var i=0; i<records.length; i++) {
 				if(rowSelection.selectedRowKeys.indexOf(records[i].Id) == -1) {

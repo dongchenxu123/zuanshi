@@ -36,6 +36,11 @@ class SimilarDirection extends React.Component {
       rowSelection.selectedRowKeys = select;
       this.setState({ rowSelection,  searchkw: searchkw});
       this.loadOrders(searchkw, 1)
+    } else {
+      let {rowSelection} = this.state;
+      rowSelection.selectedRowKeys = select;
+      this.setState({ rowSelection })
+      this.loadOrders('', 1)
     }
   }
   componentDidMount () {

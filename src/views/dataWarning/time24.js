@@ -20,13 +20,21 @@ const weeks = genArray(7).reduce((prev, cur) => {
 class Time24 extends Component{
     constructor(props){
         super(props)
+        const value = this.props.defaultValue ? this.props.defaultValue : [];
+        let selectWeeks = this.seralSelectHours(value);
+        let defaultWeeks = {}
+        selectWeeks.weeks.forEach(week => {
+            defaultWeeks[week]= {
+                ...weeks[week],
+                select: selectWeeks.select[week]
+            }
+        })
         this.state = {
-            weeks: {...weeks}
+            weeks: {...weeks, ...defaultWeeks}
         }
     }
     seralSelectHours(weeks){
         let weekKeys = Object.keys(weeks);
-        cosole.log(weeks)
         let newWeeks = {};
         weekKeys.forEach(week => {
             let weekData = weeks[week];

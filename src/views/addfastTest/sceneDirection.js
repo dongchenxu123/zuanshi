@@ -9,7 +9,8 @@ import Checkbox from 'qnui/lib/checkbox';
 import createHistory from 'history/createHashHistory';
 import Feedback from 'qnui/lib/feedback';
 const Toast = Feedback.toast;
-const history = createHistory()
+const history = createHistory();
+import Switch from 'qnui/lib/switch';
 class SceneDirection extends React.Component {
   constructor () {
     super ()
@@ -89,7 +90,10 @@ class SceneDirection extends React.Component {
            s: false
          }
     },
-    selectList: []
+    selectList: [],
+    yixiangchecked: false,
+    activeChecked: false
+
   }
 }
 componentWillMount () {
@@ -108,6 +112,12 @@ componentWillMount () {
     obj.selectList = select
     this.setState(obj)
   }
+  var yixiangIsexpandable = this.props.data.yixiangIsexpandable
+  var activeIsexpandable = this.props.data.activeIsexpandable
+  this.setState({
+    yixiangchecked: yixiangIsexpandable,
+    activeChecked: activeIsexpandable
+  })
 }
   allChange (gid, checked) {
     var selectList= this.state.selectList
@@ -200,11 +210,11 @@ componentWillMount () {
       for(var i=0; i< selectList.length; i++) {
         if(selectList[i] == '3001') {
           var subCrowdValue = parseInt(selectList[i])
-          Row3value={crowd_type: scenecrowdType, crowd_value: crowdValue3, sub_crowds: [{sub_crowd_value: subCrowdValue}]}
+          Row3value={crowd_type: scenecrowdType, crowd_value: crowdValue3, sub_crowds: [{sub_crowd_value: subCrowdValue}], expandable: this.state.yixiangchecked}
         }
         if (selectList[i] == '3002') {
           var subCrowdValue = parseInt(selectList[i])
-          Row6value={crowd_type: scenecrowdType, crowd_value: crowdValue3, sub_crowds: [{sub_crowd_value: subCrowdValue}]}
+          Row6value={crowd_type: scenecrowdType, crowd_value: crowdValue3, sub_crowds: [{sub_crowd_value: subCrowdValue}], expandable: this.state.yixiangchecked}
         }
       }
 
@@ -215,19 +225,19 @@ componentWillMount () {
       for(var i=0; i< selectList.length; i++) {
         if(selectList[i] == '4001') {
           var subCrowdValue = parseInt(selectList[i])
-          Row4value={crowd_type: scenecrowdType, crowd_value: crowdValue4, sub_crowds: [{sub_crowd_value: subCrowdValue}]}
+          Row4value={crowd_type: scenecrowdType, crowd_value: crowdValue4, sub_crowds: [{sub_crowd_value: subCrowdValue}], expandable:this.state.activeChecked}
         }
         if (selectList[i] == '4002') {
           var subCrowdValue = parseInt(selectList[i])
-          Row7value={crowd_type: scenecrowdType, crowd_value: crowdValue4, sub_crowds: [{sub_crowd_value: subCrowdValue}]}
+          Row7value={crowd_type: scenecrowdType, crowd_value: crowdValue4, sub_crowds: [{sub_crowd_value: subCrowdValue}], expandable:this.state.activeChecked}
         }
         if (selectList[i] == '4004') {
           var subCrowdValue = parseInt(selectList[i])
-          Row8value={crowd_type: scenecrowdType, crowd_value: crowdValue4, sub_crowds: [{sub_crowd_value: subCrowdValue}]}
+          Row8value={crowd_type: scenecrowdType, crowd_value: crowdValue4, sub_crowds: [{sub_crowd_value: subCrowdValue}], expandable:this.state.activeChecked}
         }
         if (selectList[i] == '4005') {
           var subCrowdValue = parseInt(selectList[i])
-          Row9value={crowd_type: scenecrowdType, crowd_value: crowdValue4, sub_crowds: [{sub_crowd_value: subCrowdValue}]}
+          Row9value={crowd_type: scenecrowdType, crowd_value: crowdValue4, sub_crowds: [{sub_crowd_value: subCrowdValue}], expandable:this.state.activeChecked}
         }
       }
 
@@ -253,6 +263,24 @@ componentWillMount () {
 
   }
   showError  () {Toast.error('您还没有选择人群')}
+  changeyixiang (value) {
+    this.setState({
+      yixiangchecked: value
+    })
+    var step=3
+    var type='yixiangchecked'
+    var yixiangchecked=value
+    this.props.commonData({step, type, yixiangchecked})
+  }
+  changeactive (value) {
+    this.setState({
+      activeChecked: value
+    })
+    var step = 3
+    var type='activeChecked'
+    var activeChecked = value
+    this.props.commonData({step, type, activeChecked})
+  }
   render () {
     var select= this.state.selectList
     return (
@@ -296,7 +324,32 @@ componentWillMount () {
                             )
                           })
                       }
-                      </div></Col>
+                      </div>
+                      </Col>
+                      <Col>
+                        {
+                          itemId == 3
+                          ? <div><span>是否自由组合: </span>
+                              <Switch checkedChildren="开" unCheckedChildren="关"
+                                       style={{marginLeft: '10px'}}
+                                       disabled={select.indexOf('3001') >-1 && select.indexOf('3002') >-1 ? false : true}
+                                       onChange={this.changeyixiang.bind(this)}
+                                       checked={this.state.yixiangchecked}/>
+                            </div>
+                          : null
+                        }
+                        {
+                          itemId == 4
+                          ? <div><span>是否自由组合: </span>
+                              <Switch checkedChildren="开" unCheckedChildren="关"
+                                       style={{marginLeft: '10px'}}
+                                       disabled={select.indexOf('4001') >-1 && select.indexOf('4002') >-1 && select.indexOf('4004') >-1 && select.indexOf('4005') >-1 ? false : true}
+                                       onChange={this.changeactive.bind(this)}
+                                       checked={this.state.activeChecked}/>
+                            </div>
+                          : null
+                        }
+                      </Col>
                     </Row>
                   )
                 })

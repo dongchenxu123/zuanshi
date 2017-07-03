@@ -9,7 +9,8 @@ const titleDirection = {
       '262144' : '相似宝贝定向-喜欢我的宝贝的人群',
       '8192' : '群体定向',
       '64' : '兴趣点定向',
-      '16384' : '营销场景定向'
+      '16384' : '营销场景定向',
+			'128': '达摩盘定向'
 }
 const crowdValue = {
 	    '1' : '自主店铺',
@@ -59,9 +60,13 @@ class SelectDirection extends React.Component {
     var zhinengchecked = this.props.zhinengchecked
     var tongtouObj = this.props.tongtouObj
     var zhinengObj = this.props.zhinengObj
-    console.log(tongtouObj)
+    var dmpArr = this.props.dmpArr
     if(zizhuObj.crowd_type) {
       newArr.push(zizhuObj)
+    }
+		if(dmpArr.length > 0) {
+    var dmpArrs = newArr.concat(dmpArr)
+     newArr = dmpArrs
     }
     if(zhongziObj.crowd_type) {
       newArr.push(zhongziObj)
@@ -108,7 +113,7 @@ class SelectDirection extends React.Component {
   }
   rendersubCrowds () {
     var selectData = this.state.selectData
-		console.log(this.props.tongtouchecked);
+
 		return (
        <div>
 			  {
@@ -127,8 +132,9 @@ class SelectDirection extends React.Component {
                <div key={index} style={{paddingBottom: '8px', lineHeight: '20px'}}>
                  <span>{titleDirection[item.crowd_type]}&nbsp;&nbsp;</span>
                  <span>{item.sub_crowds ? ':' : ''}&nbsp;&nbsp;</span>
-                 {item.crowd_value ?  <span>{crowdValue[item.crowd_value]} : &nbsp;&nbsp;</span> : ''}
-                 {
+                 {item.crowd_value && item.crowd_type != 128 ?  <span>{crowdValue[item.crowd_value]} : &nbsp;&nbsp;</span> : ''}
+                 {item.crowd_name ?  <span>{item.crowd_name}&nbsp;</span> : ''}
+								 {
                    item.crowd_type == 16384
                    ? ( item.sub_crowds ? item.sub_crowds.map((v, i) => {
                   return (<span style={{color: '#333'}} key={i}>{subCrowdValue[v.sub_crowd_value]}&nbsp;&nbsp;</span>)
@@ -153,7 +159,7 @@ class SelectDirection extends React.Component {
    }
   render () {
     return (
-      <div className='panel panel-default' style={{height: '350px'}}>
+      <div className='panel panel-default' style={{minHeight: '350px'}}>
         <div className="panel-heading" style={{overflow: 'hidden'}}>
           <span>您选择的定向</span>
 				</div>

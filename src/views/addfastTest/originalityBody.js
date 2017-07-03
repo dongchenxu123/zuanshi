@@ -57,52 +57,38 @@ class OriginalityBody extends React.Component {
 	render () {
 		return (
 		 <div>
-		   <div>
-			 <div className='col-md-9'>
-       {/*<div className='col-md-4'>
-           <Search placeholder="What are you looking for..."
-               onChange={this.props.onChange}
-               onSearch={this.props.onSearch}/>
-	      </div>*/}
-				{
-					this.state.FormatsType
-					? <div className='col-md-2'>
-						<Select placeholder="全部类型" onChange={this.props.onSelectType}>
-						    <Option value="">全部类型</Option>
-								<Option value="2">图片创意</Option>
-								<Option value="3">Flash创意</Option>
-								<Option value="4">视频创意</Option>
-								<Option value="5">文字链创意</Option>
-								<Option value="9">Flash不遮盖创意</Option>
-								<Option value="10">模板创意</Option>
+		   <Row >
+			 {
+				this.state.FormatsType
+				? <Col span="2">
+					<Select placeholder="全部类型" onChange={this.props.onSelectType}>
+						<Option value="">全部类型</Option>
+							<Option value="2">图片创意</Option>
+							<Option value="3">Flash创意</Option>
+							<Option value="4">视频创意</Option>
+							<Option value="5">文字链创意</Option>
+							<Option value="9">Flash不遮盖创意</Option>
+							<Option value="10">模板创意</Option>
 						</Select>
-	 	      </div>
-					: null
+					</Col>
+				: null
 				}
 				{
 					this.state.LevelsType
-					? <div className='col-md-2'>
+					? <Col span="2">
 						<Select placeholder="全部等级" onChange={this.props.onSelectLevel}>
-							 <Option value="">全部等级</Option>
-							 <Option value="1">一级</Option>
-							 <Option value="2">二级</Option>
-							 <Option value="3">三级</Option>
-							 <Option value="4">四级</Option>
-							 <Option value="10">十级</Option>
-							 <Option value="99">未分等级</Option>
-					 </Select>
-	 	      </div>
+								<Option value="">全部等级</Option>
+								<Option value="1">一级</Option>
+								<Option value="2">二级</Option>
+								<Option value="3">三级</Option>
+								<Option value="4">四级</Option>
+								<Option value="10">十级</Option>
+								<Option value="99">未分等级</Option>
+						</Select>
+						</Col>
 					: null
 				}
-				{/*<div className='col-md-2'>
-					<Select placeholder="选择尺寸" onChange={this.props.onSelectType}>
-						 <Option value="small">Small</Option>
-						 <Option value="medium">Medium</Option>
-						 <Option value="large">Large</Option>
-				 </Select>
- 	      </div>*/}
-				</div>
-      </div>
+		</Row>
        {
          this.props.data
          ?

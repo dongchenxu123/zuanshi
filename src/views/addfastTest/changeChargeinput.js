@@ -5,6 +5,7 @@ import React, {PropTypes} from 'react'
 import Button from 'qnui/lib/button';
 import axios from 'axios';
 import {updateCombinationCpm} from '../../help/url';
+import {Icon} from 'antd';
 export default class ChangeCharge extends React.Component {
   constructor () {
     super()
@@ -22,24 +23,7 @@ export default class ChangeCharge extends React.Component {
       editcpm: false
     })
     this.props.sendcpm(sendvalue)
-    var id=this.props.id
-    var combination = this.props.record
-    var cpm = combination.cpm
-    var combination_id = combination.id
-    var obj = {
-      'Id': parseInt(combination_id),
-      'Cpm': cpm
-    }
-    axios.post(updateCombinationCpm, {
- 		 test_id: parseInt(id),
-     combinations: [obj]
-   	})
-   	.then(function (response) {
-   		 
-    })
-   	.catch(function (error) {
-   			console.log(error);
-   	});
+
   }
   // closeEditCpm () {
   //   var self = this
@@ -49,7 +33,7 @@ export default class ChangeCharge extends React.Component {
   // }
   renderInput () {
     var props = this.props
-    var propsCpm = props.changeCharge ? props.changeCharge : this.state.cpm
+    var propsCpm = props.cpm === 0 ? 30 : props.cpm
     return (
       <div className='text-center ant-input-group' style={{margin: '0 auto', width: '100%'}}>
         <span>
@@ -70,15 +54,21 @@ export default class ChangeCharge extends React.Component {
   render () {
    var props = this.props
    var editcpm = this.state.editcpm
-   var propsCpm = props.changeCharge ? props.changeCharge : this.state.cpm
+   var propsCpm = props.cpm === 0 ? 30 : props.cpm
    var combination = this.props.record
-   var online_status = combination.online_status
+   var online_status = this.props.status
    return (
       <div>
-      <div style={{marginBottom: '10px'}}><span style={{paddingLeft: '8px'}}>{propsCpm}</span>元</div>
       { editcpm
         ? this.renderInput()
-        : <Button onClick={this.onChange.bind(this)} disabled={online_status == 4 || online_status == 5 ? true : false}>修改出价</Button>
+        : <div>
+            <span>￥ {propsCpm}</span>
+            {
+              online_status == 4 || online_status == 5
+              ? null
+              : <Icon type="edit" onClick={this.onChange.bind(this)}/>
+            }
+          </div>
       }
 
       </div>
