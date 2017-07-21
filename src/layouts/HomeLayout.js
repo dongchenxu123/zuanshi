@@ -5,7 +5,9 @@ import {
   Link
  } from 'react-router-dom'
 import createHistory from 'history/createHashHistory'
-import { homeUrl,fastList,userUrl } from '../help/linkUrl';
+import { homeUrl,fastList,userUrl,loginUrl } from '../help/linkUrl';
+import {getUsers} from '../help/url';
+import axios from 'axios';
 import '../styles/footer.css';
 import Button from 'qnui/lib/button';
 const history = createHistory()
@@ -15,8 +17,14 @@ var url = history.location.search
 if (url.indexOf('qianniupc') > -1) {
   localStorage.setItem("url", url)
 }
-
+var newurl = localStorage.getItem('url')
 class HomeLayout extends React.Component {
+  constructor () {
+    super ()
+    this.state={
+      loginData: {}
+    }
+  }
   linkchart () {
     QN.application.invoke({
             cmd: 'openChat',
@@ -25,9 +33,21 @@ class HomeLayout extends React.Component {
             }
         });
   }
-  goback () {
-    history.go(-1)
-  }
+//  componentWillMount () {
+//     var self = this
+//     axios.get(getUsers)
+//     .then(function (response) {
+//       if(response.data.res == null && newurl != '?source=qianniupc') {
+//         location.href='/login'
+//       }
+//       self.setState({
+//         loginData: response.data.res
+//       })
+//     })
+//     .catch(function (error) {
+//       console.log(error);
+//     });
+//   }
 	render() {
     let browsername = ''
     if(process.env.NODE_ENV === 'production'){
@@ -35,7 +55,6 @@ class HomeLayout extends React.Component {
     } else{
       browsername = '_dev/dsp/site'
     }
-    var newurl = localStorage.getItem('url')
     var imgUrl = 'https://img.alicdn.com/imgextra/i1/669952568/TB2kH86aZPRfKJjSZFOXXbKEVXa_!!669952568.png'
     return (
 	     <div className='home'>
@@ -49,21 +68,21 @@ class HomeLayout extends React.Component {
           <Router basename={browsername} history={history}>
             <div>
                 <div style={{overflow: 'hidden'}}>
-                  <Link to={homeUrl} style={{float: 'left'}}><img src={imgUrl} style={{height: '55px', margin: '20px 15px 5px 15px'}}/></Link>
-                  <Link to={userUrl} style={{float: 'right',height: '55px',lineHeight: '55px', margin: '20px 15px 5px 15px'}}><Button>用户中心</Button></Link>
+                      <Link to={homeUrl} style={{float: 'left'}}><img src={imgUrl} style={{height: '55px', margin: '20px 15px 5px 15px'}}/></Link>
+                      <Link to={userUrl} style={{float: 'right',height: '55px',lineHeight: '55px', margin: '20px 15px 5px 15px'}}><Button>用户中心</Button></Link>
                 </div>
-                  {
+                {
                     newurl == '?source=qianniupc'
                     ? <ButtonGroup style={{ margin: '20px 15px 5px 25px'}}>
                         <Link to={homeUrl}><Button type="secondary">首页</Button></Link>
                         <Link to={fastList}><Button type="secondary">列表页</Button></Link>
                       </ButtonGroup>
                     : null
-                  }
+                }
                 {routes.map((route, index) => (
     	            	<Route key={index} exact={route.exact} path={route.path} render={props => (
-    <route.component {...props} routes={route.routes}/>
-  )} />
+                      <route.component {...props} routes={route.routes}/>
+                    )} />
     	            ))}
             </div>
          </Router>

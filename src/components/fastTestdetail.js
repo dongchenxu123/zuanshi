@@ -135,19 +135,19 @@ class FasttestdetailView extends React.Component {
 	 }
 	 return(
 		 <div>
-        {
-					Rpts && Rpts.length > 0
-					? Rpts.map((item, index) => {
-						return(
-							<div style={{margin: '10px',lineHeight: '40px'}} key={index}>
-								{
-									<span>{item.Pv > 0 ? (item.Click/item.Pv).toFixed(2) : 0}</span>
-								}
-							</div>
-						)
-					})
-					: <div>loading...</div>
-				}
+        	{
+				Rpts && Rpts.length > 0
+				? Rpts.map((item, index) => {
+					return(
+						<div style={{margin: '10px',lineHeight: '40px'}} key={index}>
+							{
+								<span>{item.Pv > 0 ? (item.Click/item.Pv).toFixed(2) : 0}</span>
+							}
+						</div>
+					)
+				})
+				: <div>loading...</div>
+			}
 		 </div>
 	 )
  }
@@ -186,20 +186,20 @@ class FasttestdetailView extends React.Component {
 	 }
 	 return(
 		 <div>
-        {
-					Rpts && Rpts.length > 0
-					? Rpts.map((item, index) => {
-						return(
-							<div style={{margin: '10px', lineHeight: '40px'}} key={index}>
-								{
-									<span>{item.Pv}</span>
+        	{
+				Rpts && Rpts.length > 0
+				? Rpts.map((item, index) => {
+					return(
+						<div style={{margin: '10px', lineHeight: '40px'}} key={index}>
+							{
+								<span>{item.Pv}</span>
 
-								}
-							</div>
-						)
-					})
-					: <div>loading...</div>
-				}
+							}
+						</div>
+					)
+				})
+				: <div>loading...</div>
+			}
 		 </div>
 	 )
  }
@@ -281,32 +281,32 @@ class FasttestdetailView extends React.Component {
 	 var status = this.props.match.params.status
 	 return (
       <div>
-				{ crowds && crowds.length > 0
+		{ crowds && crowds.length > 0
           ? crowds.map((item,index) => {
-						let key= item.Crowds_zuanshi_id
-						return (
-							<div key={index} style={{paddingBottom: '8px', lineHeight: '24px'}}>
-								<div>
-									<span style={{float: 'left'}}>{titleDirection[item.crowd_type]}&nbsp;&nbsp;</span>
-									<ChangeCharge sendcpm={this.sendcpm.bind(this, crowds, com_zuanshi_key, key)}
-																cpm={item.matrix_price[0].Price/100}
-																status={status}
-																/>
-								</div>
-								<div style={{clear: 'both'}}>
-								 {item.crowd_value ?  <span>{crowdValue[item.crowd_value]} : &nbsp;&nbsp;</span> : ''}
-								 {
-									 item.crowd_type == 16384
-									 ? ( item.sub_crowds ? item.sub_crowds.map((v, i) => {
-									return (<span style={{color: '#333'}} key={i}>{subCrowdValue[v.sub_crowd_value]}&nbsp;&nbsp;</span>)
-									 }) : null)
-									 : ( item.sub_crowds ? item.sub_crowds.map((v, i) => {
-									return (<span style={{color: '#333'}} key={i}>{v.sub_crowd_name}&nbsp;&nbsp;</span>)
-									 }) : null)
-								 }
-								</div>
-						 </div>
-						)
+				let key= item.Crowds_zuanshi_id
+				return (
+					<div key={index} style={{paddingBottom: '8px', lineHeight: '24px'}}>
+						<div>
+							<span style={{float: 'left'}}>{titleDirection[item.crowd_type]}&nbsp;&nbsp;</span>
+							<ChangeCharge sendcpm={this.sendcpm.bind(this, crowds, com_zuanshi_key, key)}
+														cpm={item.matrix_price[0].Price/100}
+														status={status}
+														/>
+						</div>
+						<div style={{clear: 'both'}}>
+							{item.crowd_value ?  <span>{crowdValue[item.crowd_value]} : &nbsp;&nbsp;</span> : ''}
+							{
+								item.crowd_type == 16384
+								? ( item.sub_crowds ? item.sub_crowds.map((v, i) => {
+							return (<span style={{color: '#333'}} key={i}>{subCrowdValue[v.sub_crowd_value]}&nbsp;&nbsp;</span>)
+								}) : null)
+								: ( item.sub_crowds ? item.sub_crowds.map((v, i) => {
+							return (<span style={{color: '#333'}} key={i}>{v.sub_crowd_name}&nbsp;&nbsp;</span>)
+								}) : null)
+							}
+						</div>
+					</div>
+				)
            })
            : <div>暂无定向</div>
         }
@@ -389,7 +389,7 @@ class FasttestdetailView extends React.Component {
 					? Rpts.map((item, index) => {
 						return(
 							<div style={{margin: '10px',lineHeight: '40px'}}>
-								<span>￥ {(item.Charge/1000*item.Pv).toFixed(2)}</span>
+								<span>￥ {item.Pv > 0 ? (item.Charge*1000/item.Pv).toFixed(2) : 0}</span>
 							</div>
 						)
 					})
@@ -585,7 +585,6 @@ genCreatives(checked_list, tlist){
 		status: this.props.match.params.status
 	}
 	combinationDataObj = JSON.stringify(combinationDataObj)
-	console.log(combinationData)
 	if(combinationData.length > 0) {
       localStorage.setItem("combinationDataObj", combinationDataObj)
 	}
@@ -602,7 +601,7 @@ genCreatives(checked_list, tlist){
       <div className='panel panel-default' style={{margin: '10px'}}>
         <div className="panel-heading" style={{overflow: 'hidden'}}>
             <div style={{float: 'left', fontSize: '14px'}}>
-			    <Link to={fastList}>返回列表页</Link>&nbsp;&nbsp;
+			    <Link to={fastList} style={{color: '#4d7fff'}}>返回列表页</Link>&nbsp;&nbsp;
 				<Icon type="arrow-right" size='xs'/>&nbsp;&nbsp;
 				<span>测试名称：{title}</span>
 			</div>

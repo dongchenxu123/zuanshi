@@ -49,6 +49,12 @@ class TestTableView extends React.Component {
    .then(function (response) {
       var tests = response.data.tests
 			var total = response.data.total
+			if (response.data.err) {
+				self.setState({
+					showloading: false
+				})
+				return
+			}
 			for (var i=0; i<tests.length; i++) {
 				var testId = tests[i].id
 			}
@@ -210,16 +216,12 @@ class TestTableView extends React.Component {
 		}
 	}
 	render () {
-		 const onChange = function(...args){
-	     console.log(...args);
-	 }
-
 	var testsData = this.state.testsData
 	return (
     <div className='panel panel-default' style={{margin: '10px'}}>
 			<div className='panel-body'>
 				<div className="panel-heading" style={{overflow: 'hidden'}}>
-					<div style={{float: 'left'}}><Icon type="browse" />&nbsp;&nbsp;<span style={{fontSize: '14px'}}>极速测试列表</span></div>
+					<div style={{float: 'left'}}><Link to={homeUrl} style={{color: '#4d7fff', fontSize: '14px'}}>首页</Link>&nbsp;&nbsp;<Icon type="arrow-right" size='xs'/>&nbsp;&nbsp;<span style={{fontSize: '14px'}}>极速测试列表</span></div>
 					<div style={{float: 'left'}}>
 						{
 							testsData && testsData.length > 0

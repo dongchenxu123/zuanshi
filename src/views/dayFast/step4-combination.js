@@ -207,7 +207,7 @@ renderListData(){
 renderecpm (value, index, record) {
    var rpt = record.Rpt
    return (
-     <span>{rpt.Pv == 0 ? 0 : (rpt.Charge/1000*rpt.Pv).toFixed(2)}</span>
+     <span>{rpt.Pv == 0 ? 0 : (rpt.Charge*1000/rpt.Pv).toFixed(2)}</span>
    )
 }
 renderClick (value, index, record) {
@@ -225,7 +225,37 @@ renderctr (value, index, record) {
 renderFav (value, index, record) {
    var rpt = record.Rpt
    return (
-     <span>{rpt.FavItem + rpt.FavShop}</span>
+     <span>{rpt.FavItem || rpt.FavShop ? rpt.FavItem + rpt.FavShop : 0}</span>
+   )
+}
+renderAlipayAmt (value, index, record) {
+  var rpt = record.Rpt
+   return (
+     <span>{rpt.AlipayAmt ? rpt.AlipayAmt : 0}</span>
+   )
+}
+renderAlipayNum (value, index, record) {
+  var rpt = record.Rpt
+   return (
+     <span>{rpt.AlipayNum ? rpt.AlipayNum : 0}</span>
+   )
+}
+renderCharge (value, index, record) {
+  var rpt = record.Rpt
+   return (
+     <span>{rpt.Charge ? rpt.Charge : 0}</span>
+   )
+}
+renderClick (value, index, record) {
+   var rpt = record.Rpt
+   return (
+     <span>{rpt.Click ? rpt.Click : 0}</span>
+   )
+}
+renderPv (value, index, record) {
+   var rpt = record.Rpt
+   return (
+     <span>{rpt.Pv ? rpt.Pv : 0}</span>
    )
 }
 renderTable () {
@@ -235,15 +265,15 @@ renderTable () {
           <Table dataSource={renderList}>
             <Table.Column title="定向" cell={this.renderCrowds.bind(this)} />
             <Table.Column title="创意图" cell={this.renderImg.bind(this)}/>
-            <Table.Column title="展现" dataIndex='Rpt.Pv' width={100}/>
-            <Table.Column title="点击量" dataIndex='Rpt.Click' width={100}/>
+            <Table.Column title="展现" width={100} cell={this.renderPv.bind(this)}/>
+            <Table.Column title="点击量" width={100} cell={this.renderClick.bind(this)}/>
             <Table.Column title="点击率" cell={this.renderctr.bind(this)} width={100}/>
-            <Table.Column title="消耗" dataIndex='Rpt.Charge' width={100}/>
+            <Table.Column title="消耗" cell={this.renderCharge.bind(this)} width={100}/>
             <Table.Column title="eCPM" cell={this.renderecpm.bind(this)} width={100}/>
             <Table.Column title="eCPC" cell={this.renderClick.bind(this)} width={100}/>
             <Table.Column title="收藏" cell={this.renderFav.bind(this)} width={100}/>
-            <Table.Column title="成交金额" dataIndex='Rpt.AlipayAmt' width={100}/>
-            <Table.Column title="成交量" dataIndex='Rpt.AlipayNum' width={100}/>
+            <Table.Column title="成交金额" cell={this.renderAlipayAmt.bind(this)} width={100}/>
+            <Table.Column title="成交量" cell={this.renderAlipayNum.bind(this)} width={100}/>
          </Table>
         )
       } else {

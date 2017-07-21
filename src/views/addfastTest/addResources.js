@@ -222,6 +222,11 @@ class AddResourcesView extends React.Component {
 	  .then(function (response) {
 			var Adzones =  response.data.Adzones;
 			var totalnum = response.data.Total;
+			if (response.data.err) {
+               self.setState({
+				   showloading: false
+			   })
+			}
 			if(self.isset) {
 				self.setState({
 					AdzonesData: Adzones,

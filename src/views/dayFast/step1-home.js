@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Button from 'qnui/lib/button';
 import {getGeneralCampaigns, getCampaignStatus} from '../../help/url';
-import {createCampaign, infoFormUrl} from '../../help/linkUrl';
+import {createCampaign, infoFormUrl, homeUrl} from '../../help/linkUrl';
 import createHistory from 'history/createHashHistory';
 import Table from 'qnui/lib/table';
 import moment from 'moment';
@@ -157,7 +157,7 @@ class DayTesthomeView extends React.Component {
   }
   renderName (value, index, record) {
     return (
-      <Link to={'/dayTest/campagin/detail/'+record.Id+'/'+record.Name+ '/'+record.DayBudget+'/'+record.OnlineStatus}>{record.Name}</Link>
+      <Link to={'/dayTest/campagin/detail/'+record.Id+'/'+record.Name+ '/'+record.DayBudget+'/'+record.OnlineStatus} style={{color: '#4d7fff'}}>{record.Name}</Link>
     )
   }
   renderTable () {
@@ -200,9 +200,11 @@ class DayTesthomeView extends React.Component {
     var show = this.state.show
     return (
       <div className='panel panel-default' style={{margin: '10px'}}>
-         <div className="panel-heading" style={{overflow: 'hidden'}}>
+         <div className="panel-heading" style={{overflow: 'hidden', fontSize: '14px'}}>
             <div style={{float: 'left'}}>
-              <span>全部计划</span>
+              <Link to={homeUrl} style={{color: '#4d7fff'}}>首页</Link>&nbsp;&nbsp;
+				      <Icon type="arrow-right" size='xs'/>&nbsp;&nbsp;
+              <span>所有全店推广计划</span>
               <Button onClick={this.addCampagin.bind(this)} type="primary" style={{marginLeft: '16px'}}><Icon type="add" />&nbsp;&nbsp;新建计划</Button>
             </div>
             <Select defaultValue='0,1,9' onChange={this.onSelect.bind(this)} style={{float: 'right', width: '150px'}}>

@@ -6,6 +6,9 @@ import AnomalyzerAlertView from './anomalyzerAlert';
 import Pagination from 'qnui/lib/pagination';
 const TabPane = Tab.TabPane;
 import { getanomalyzerMetrics } from '../../help/url';
+import { Link } from 'react-router-dom';
+import {homeUrl} from '../../help/linkUrl';
+import Icon from 'qnui/lib/icon';
 class WarnHomeView extends React.Component {
   constructor(){
     super()
@@ -53,8 +56,12 @@ class WarnHomeView extends React.Component {
   render () {
     return (
       <div className='panel panel-default' style={{margin: '10px'}}>
-        <div className="panel-heading" style={{fontSize: '14px'}}>
-          数据预警
+        <div className="panel-heading" style={{fontSize: '14px', overflow: 'hidden'}}>
+          <div style={{float: 'left'}}>
+            <Link to={homeUrl} style={{color: '#4d7fff'}}>首页</Link>&nbsp;&nbsp;
+            <Icon type="arrow-right" size='xs'/>&nbsp;&nbsp;
+            <span>数据预警</span>
+          </div>
         </div>
         <div className="panel-body" style={{paddingBottom: '50px'}}>
           <Tab defaultActiveKey={0}>

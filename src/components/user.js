@@ -7,7 +7,8 @@ import Button from 'qnui/lib/button';
 import BindWechatView from '../views/dataWarning/bindWechat';
 import BindTelephoneView from '../views/dataWarning/bindtelephone';
 import Feedback from 'qnui/lib/feedback';
-const Toast = Feedback.toast;
+import createHistory from 'history/createHashHistory';
+
 class UserView extends React.Component {
   constructor () {
     super()
@@ -52,7 +53,6 @@ class UserView extends React.Component {
       console.log(error);
     });
   }
-
   onWechatClose () {
     this.setState({
         wechatVisible: false
@@ -126,7 +126,7 @@ class UserView extends React.Component {
 		return (
       <div className='panel panel-default' style={{margin: '10px'}}>
         <div className="panel-heading" style={{fontSize: '14px'}}>
-          <Link to='/' style={{color: '#333'}}>首页</Link>&nbsp; / &nbsp;
+          <Link to='/'>首页</Link>&nbsp; / &nbsp;
           <span style={{fontWeight: 'bold'}}>用户中心</span>
         </div>
         <div className="panel-body" style={{paddingBottom: '100px'}}>

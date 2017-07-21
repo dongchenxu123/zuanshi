@@ -10,10 +10,6 @@ import {routes} from '../../routes/add'
 import createHistory from 'history/createHashHistory'
 const history = createHistory()
 
-window.onbeforeunload = function () {
-   var warning="您刷新后将不能保留您之前添加的内容，您需返回首页重新添加！";
-   return warning;
-}
 class AddTestPlanLayout extends React.Component {
   constructor (props) {
     super(props)

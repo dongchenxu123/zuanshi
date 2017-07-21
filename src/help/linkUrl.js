@@ -16,4 +16,4 @@ export const createcombination = '/dayTest/CreateCombination'
 export const infoFormUrl = '/dayTest/infoForm'
 export const detailFast = '/fast/test/detail/:id/:title/:status'
 export const campaginList = '/dayTest/campaginList'
-
+export const loginUrl = '/login'

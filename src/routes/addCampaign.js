@@ -5,7 +5,8 @@ import setSolution from '../views/dayFast/setSolution';
 import CreateCombinationView from '../views/dayFast/step4-combination';
 import InfoFormView from '../views/dayFast/infoform';
 import GeneralCampaginList from '../views/dayFast/generalCampaignList';
-import CampaginDetailView from '../views/dayFast/campaginDetail'
+import CampaginDetailView from '../views/dayFast/campaginDetailTable';
+import AdgroupDetailView from '../views/dayFast/detailReport/adgroupDetail';
 export const AddDayTestRoutes = [
   {
 		path: '/dayTest/home',
@@ -32,7 +33,13 @@ export const AddDayTestRoutes = [
 	},
 	{
 		path: '/dayTest/campagin/detail/:id/:name/:cost/:status',
+		exact: true,
 		component: CampaginDetailView
+	},
+	{
+		path: '/dayTest/campagin/detail/adgroupsDetail/:campaign_id/:adgroup_id/:start_time/:end_time/:effect/:name',
+		exact: false,
+		component: AdgroupDetailView
 	}
  
 ]

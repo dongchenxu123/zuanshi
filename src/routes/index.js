@@ -8,7 +8,7 @@ import DetailChartView from '../views/dataWarning/detailChart';
 import { AddTestRoutes } from './add';
 import { AddDayTestRoutes } from './addCampaign';
 import UserView from '../components/user';
-
+import LoginView from '../components/login';
 import dayLayout from '../views/dayFast/layout'
 export const routes = [
 	{
@@ -47,6 +47,10 @@ export const routes = [
 		path: '/dayTest',
 		component: dayLayout,
 		routes: AddDayTestRoutes
+	},
+	{
+		path: '/login',
+		component: LoginView
 	}
 
 ]

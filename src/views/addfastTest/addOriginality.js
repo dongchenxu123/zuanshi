@@ -208,6 +208,11 @@ class AddOriginalityView extends React.Component {
 			var Creatives = response.data.Creatives;
 			var totalnum = response.data.Total;
 			var select = self.state.rowSelection.selectedRowKeys
+			if(response.data.err) {
+        self.setState({
+					showloading: false
+				})
+			}
 			if(self.isMount) {
 				self.setState({
 					creativesData: Creatives,
@@ -231,8 +236,8 @@ class AddOriginalityView extends React.Component {
 		var total = this.state.total;
 		if(this.state.creativesData === null) {
 			return
-		} else if(current == 1 && this.state.creativesData.length < pageSize && this.state.creativesData.length <= total){ return null}
-		else if(this.state.creativesData.length > 0) {
+		}
+		else if(total && total.length> 10) {
 			return (<Pagination current={this.state.current} onChange={this.onchangePage.bind(this)}
 										defaultCurrent={1} total={this.state.total} pageSize={10}/>)
 		}
@@ -240,7 +245,7 @@ class AddOriginalityView extends React.Component {
 	render () {
 		let {rowSelection} = this.state;
 		var selectId = rowSelection.selectedRowKeys;
-    return (
+		return (
 		 			<div className='panel panel-default' style={{margin: '10px'}}>
 						<div className="panel-heading" style={{overflow: 'hidden'}}>
 							<div style={{paddingLeft: '15px', float: 'left'}}><Icon type="picture" />&nbsp;&nbsp;<span>添加创意</span></div>

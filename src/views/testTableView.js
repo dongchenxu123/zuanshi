@@ -39,6 +39,9 @@ class TestTableView extends React.Component {
 			page_size: 1
 		})
    .then(function (response) {
+	  if (response.data.err) {
+         return
+	  }
       var tests = response.data.tests
 			for(var i=0; i<tests.length; i++) {
 				var testId = tests[i].id
