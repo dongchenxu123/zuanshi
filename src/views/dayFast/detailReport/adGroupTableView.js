@@ -6,9 +6,6 @@ import Loading from 'qnui/lib/loading';
 const formaterDate="YYYY-MM-DD";
 const rptLabelsKey = Object.keys(rptLabels);
 class AdgroupTableView extends React.Component {
-  renderTime (item) {
-    return (<span>{item}</span>)
-  }
   renderTime (val, index, record) {
     if ( 'HourId' in record) {
       return (<span>{record.HourId} : 00</span>)
@@ -34,9 +31,9 @@ class AdgroupTableView extends React.Component {
               rptLabelsKey.map(col => {
                   const rptLabel = rptLabels[col];
                   return (
-                    <Table.Column 
-                      title={rptLabel.title} 
-                      dataIndex={col} 
+                    <Table.Column
+                      title={rptLabel.title}
+                      dataIndex={col}
                       key={col}
                       cell={(value, index, record) => this.renderTableCell(rptLabel, record, col)}
                       width={150}
@@ -49,14 +46,14 @@ class AdgroupTableView extends React.Component {
     } else {
       return (<div style={{textAlign: 'center', margin: '50px auto'}}>暂无数据</div>)
     }
-    
+
   }
   render () {
     const { show } = this.props;
     return (
       <div>
         {
-          show 
+          show
           ? <Loading color="#cccccc" size="small" show={show}/>
           : this.renderTable()
         }

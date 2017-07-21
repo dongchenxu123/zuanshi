@@ -209,7 +209,6 @@ class AddTestPlanLayout extends React.Component {
         this.setState({
           interestObj: interestObj
         })
-
       }
       if (step.type === 'form') {
         var formData={
@@ -366,8 +365,6 @@ class AddTestPlanLayout extends React.Component {
         speareas: speAreas
       })
     }
-
-
   }
   render () {
     const self = this;

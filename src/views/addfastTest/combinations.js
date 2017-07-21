@@ -264,7 +264,7 @@ changeCrowdPrice(crowds, Crowds_zuanshi_id, value) {
 }
 
 //修改单个定向价钱
-  sendcpmData ( Crowds_zuanshi_id, id, record, cpmvalue) {
+sendcpmData ( Crowds_zuanshi_id, id, record, cpmvalue) {
   var combinationData = this.state.combinationData
   let editList = this.state.editCombinations;
   let combination;
