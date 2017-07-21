@@ -186,20 +186,20 @@ class FasttestdetailView extends React.Component {
 	 }
 	 return(
 		 <div>
-        {
-					Rpts && Rpts.length > 0
-					? Rpts.map((item, index) => {
-						return(
-							<div style={{margin: '10px', lineHeight: '40px'}} key={index}>
-								{
-									<span>{item.Pv}</span>
+         {
+			Rpts && Rpts.length > 0
+			? Rpts.map((item, index) => {
+				return(
+					<div style={{margin: '10px', lineHeight: '40px'}} key={index}>
+						{
+							<span>{item.Pv}</span>
 
-								}
-							</div>
-						)
-					})
-					: <div>loading...</div>
-				}
+						}
+					</div>
+				)
+			})
+			: <div>loading...</div>
+		}
 		 </div>
 	 )
  }
@@ -602,7 +602,7 @@ genCreatives(checked_list, tlist){
       <div className='panel panel-default' style={{margin: '10px'}}>
         <div className="panel-heading" style={{overflow: 'hidden'}}>
             <div style={{float: 'left', fontSize: '14px'}}>
-			    <Link to={fastList}>返回列表页</Link>&nbsp;&nbsp;
+			    <Link to={fastList} style={{color: '#4d7fff'}}>返回列表页</Link>&nbsp;&nbsp;
 				<Icon type="arrow-right" size='xs'/>&nbsp;&nbsp;
 				<span>测试名称：{title}</span>
 			</div>
