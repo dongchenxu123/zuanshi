@@ -385,7 +385,7 @@ class SetlocationView extends React.Component {
 		var specailSelect = this.state.specailSelect;
 	 return (
 		 <div className='panel panel-default' style={{margin: '10px'}}>
- 			<div className="panel-heading" style={{overflow: 'hidden'}}>
+ 			<div className="panel-heading" style={{overflow: 'hidden', fontSize: '14px'}}>
  				<div style={{paddingLeft: '15px', float: 'left'}}><Icon type="similar-product" />&nbsp;&nbsp;<span>地域设置</span></div>
  			</div>
  			<div className="panel-body" style={{paddingBottom: '50px'}}>

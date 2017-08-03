@@ -26,11 +26,9 @@ class CreativeTabView extends React.Component {
     var ImagePath = record.Creative.ImagePath
     const imgsm = <img src={ImagePath} style={{width: '200px'}}/>
     return (
-          <div style={{margin: '10px 0'}}>
-            <Balloon trigger={imgsm} align="rt" alignment="edge" style={{width: '500px !important'}}>
-                <img src={ImagePath} style={{width: '400px'}}/>
-            </Balloon>
-          </div>
+          <Balloon trigger={imgsm} align="rt" alignment="edge" style={{width: 300}}>
+                <img src={ImagePath} style={{width: '100%'}}/>
+          </Balloon>
         )
   }
   renderTableCell (rptLabel, record, rptkey) {

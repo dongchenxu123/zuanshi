@@ -232,7 +232,7 @@ class DetailChartView extends React.Component {
     let metric_item = this.state.metricObj
     return (
       <div className='panel panel-default' style={{margin: '10px'}}>
-        <div className="panel-heading"><Link to='/dataWarn'>监控列表</Link>&nbsp; / &nbsp;<span style={{fontWeight: 'bold'}}>监控详情</span></div>
+        <div className="panel-heading" style={{fontSize: '14px'}}><Link to='/dataWarn' style={{color: '#4d7fff'}}>监控列表</Link>&nbsp; / &nbsp;<span>监控详情</span></div>
         <div className="panel-body">
           <Echarts style={{height: 600}} option={this.state.chartOption} notMerge={true}/>
            {

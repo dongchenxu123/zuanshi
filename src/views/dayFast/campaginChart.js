@@ -125,13 +125,13 @@ class CampaginChartView extends React.Component {
                     name: rptLabels[this.state.chartType]['title'],
                     type: 'line',
                     smooth: true,
-                    itemStyle: {  
+                    itemStyle: {
                         normal : {
                             color:'#4d7fff',
-                            lineStyle:{  
-                                color:'#4d7fff'  
-                            }  
-                        }  
+                            lineStyle:{
+                                color:'#4d7fff'
+                            }
+                        }
                     },
                     data: obj[this.state.chartType]
                 }

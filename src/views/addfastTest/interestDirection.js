@@ -268,10 +268,10 @@ class InterestDirection extends React.Component {
     return (
       <div className='panel panel-default' style={{margin: '10px'}}>
         <div className="panel-heading" style={{overflow: 'hidden'}}>
-          兴趣点定向
+          类目定向
         </div>
         <div className="panel-body" style={{paddingBottom: '50px'}}>
-            <Tab defaultActiveKey={0} lazyLoad={true}>
+            {/*<Tab defaultActiveKey={0} lazyLoad={true}>
               <TabPane key={0} tab={'店铺推荐兴趣点'}>
                 <InterestoreView
                     nickName={this.state.nickName}
@@ -295,7 +295,7 @@ class InterestDirection extends React.Component {
                   handleIdsChange={this.handleIdsChange}
                   handleSelectIdsChange={this.handleSelectIdsChange}/>
               </TabPane>
-              <TabPane key={2} tab={'搜索兴趣点'}>
+              <TabPane key={2} tab={'搜索兴趣点'}>*/}
                 <InteresKeywordView
                     keyword={this.state.keyword}
                     onChangeKeywords={this.onChangeKeywords.bind(this)}
@@ -306,8 +306,8 @@ class InterestDirection extends React.Component {
                     handlekeywordChange={this.handlekeywordChange}
                     handleSelectkeywordChange={this.handleSelectkeywordChange}
                   />
-              </TabPane>
-            </Tab>
+              {/*</TabPane>
+            </Tab>*/}
         </div>
         <div className="panel-footer" style={{overflow: 'hidden', backgroundColor: '#fff'}}>
           <div style={{float: 'right'}}>

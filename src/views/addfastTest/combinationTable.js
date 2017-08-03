@@ -13,7 +13,7 @@ const titleDirection = {
       '131072' : '相似宝贝定向-喜欢相似宝贝的人群',
       '262144' : '相似宝贝定向-喜欢我的宝贝的人群',
       '8192' : '群体定向',
-      '64' : '兴趣点定向',
+      '524288' : '类目型定向',
       '16384' : '营销场景定向',
 			'128' : '达摩盘定向'
 }
@@ -83,15 +83,14 @@ class CombinationTable extends React.Component {
        <div>
          { Crowds
 					 ? Crowds.map((item,index) => {
-
-             return (
+						return (
                <div key={index} style={{paddingBottom: '8px', lineHeight: '24px'}}>
 							   <div>
 									 <span style={{float: 'left'}}>{titleDirection[item.crowd_type]}&nbsp;&nbsp;</span>
 									 <EditInline sendcpm={this.sendcpm.bind(this, Crowds, key, item.Crowds_zuanshi_id)} cpm={item.matrix_price[0].Price/100}/>
 								 </div>
 								 <div style={{clear: 'both'}}>
-								 	{item.crowd_value && item.crowd_type != 128 ?  <span>{crowdValue[item.crowd_value]} : &nbsp;&nbsp;</span> : ''}
+								 	{item.crowd_value && item.crowd_type != 128 ?  <span>{crowdValue[item.crowd_value]}&nbsp;&nbsp;</span> : ''}
 									{item.crowd_name ?  <span>{item.crowd_name}&nbsp;</span> : ''}
 									{
 										item.crowd_type == 16384

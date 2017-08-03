@@ -80,17 +80,10 @@ class CombinationsView extends React.Component {
     var zhinengObj = this.props.data.zhinengObj
     var checked = this.props.data.checked
     var zhinengchecked = this.props.data.zhinengchecked
-    var Row1value = this.props.data.Row1value
-    var Row2value = this.props.data.Row2value
-    var Row3value = this.props.data.Row3value
-    var Row4value = this.props.data.Row4value
-    var Row5value = this.props.data.Row5value
-    var Row6value = this.props.data.Row6value
-    var Row7value = this.props.data.Row7value
-    var Row8value = this.props.data.Row8value
-    var Row9value = this.props.data.Row9value
+    var selectRow = this.props.data.sceneObj.selectRow //营销场景定向
     var tiaoguoObj = this.props.data.tiaoguoObj
     var dmpArr = this.props.data.dmpArr
+    var selectCats = this.props.data.catsObj.selectCats
     if(tiaoguoObj.crowd_type == 0) {
       newArr.push(tiaoguoObj)
     }
@@ -100,9 +93,17 @@ class CombinationsView extends React.Component {
     if(zhongziObj.crowd_type) {
       newArr.push(zhongziObj)
     }
-    if(dmpArr.length > 0) {
+    if(dmpArr) {
     var dmpArrs = newArr.concat(dmpArr)
      newArr = dmpArrs
+    }
+    if (selectCats) {
+      var selectCats = newArr.concat(selectCats)
+      newArr = selectCats
+    }
+    if (selectRow) {
+      var selectRow = newArr.concat(selectRow)
+      newArr = selectRow
     }
     if(checked == true) {
      newArr.push(tongtouObj)
@@ -115,33 +116,6 @@ class CombinationsView extends React.Component {
     }
     if (likemybodyObj.crowd_type) {
       newArr.push(likemybodyObj)
-    }
-    if (Row1value.crowd_type) {
-      newArr.push(Row1value)
-    }
-    if (Row2value.crowd_type) {
-      newArr.push(Row2value)
-    }
-    if (Row3value.crowd_type) {
-      newArr.push(Row3value)
-    }
-    if (Row4value.crowd_type) {
-      newArr.push(Row4value)
-    }
-    if (Row5value.crowd_type) {
-      newArr.push(Row5value)
-    }
-    if (Row6value.crowd_type) {
-      newArr.push(Row6value)
-    }
-    if (Row7value.crowd_type) {
-      newArr.push(Row7value)
-    }
-    if (Row8value.crowd_type) {
-      newArr.push(Row8value)
-    }
-    if (Row9value.crowd_type) {
-      newArr.push(Row9value)
     }
     if (similarObj.crowd_type) {
       newArr.push(similarObj)
@@ -338,7 +312,7 @@ renderListData(){
     let renderList = this.renderListData()
     return (
       <div className='panel panel-default' style={{margin: '10px'}}>
-        <div className="panel-heading" style={{overflow: 'hidden'}}>
+        <div className="panel-heading" style={{overflow: 'hidden', fontSize: '14px'}}>
           <div style={{float: 'left'}}>投放组合</div>
         </div>
         <div className="panel-body" style={{paddingBottom: '50px'}}>

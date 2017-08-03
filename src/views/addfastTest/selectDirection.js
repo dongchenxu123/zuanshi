@@ -10,7 +10,8 @@ const titleDirection = {
       '8192' : '群体定向',
       '64' : '兴趣点定向',
       '16384' : '营销场景定向',
-			'128': '达摩盘定向'
+      '128': '达摩盘定向',
+      '524288': '类目定向'
 }
 const crowdValue = {
 	    '1' : '自主店铺',
@@ -47,26 +48,27 @@ class SelectDirection extends React.Component {
     var peopleObj = this.props.peopleObj
     var likemybodyObj = this.props.likemybodyObj
     var similarObj = this.props.similarObj
-    var Row1value = this.props.Row1value
-    var Row2value = this.props.Row2value
-    var Row3value = this.props.Row3value
-    var Row4value = this.props.Row4value
-    var Row5value = this.props.Row5value
-    var Row6value = this.props.Row6value
-    var Row7value = this.props.Row7value
-    var Row8value = this.props.Row8value
-    var Row9value = this.props.Row9value
+    var selectRow = this.props.selectRow
     var checked = this.props.checked
     var zhinengchecked = this.props.zhinengchecked
     var tongtouObj = this.props.tongtouObj
     var zhinengObj = this.props.zhinengObj
     var dmpArr = this.props.dmpArr
+    var selectCats = this.props.selectCats
     if(zizhuObj.crowd_type) {
       newArr.push(zizhuObj)
     }
-		if(dmpArr.length > 0) {
-    var dmpArrs = newArr.concat(dmpArr)
+		if(dmpArr) {
+     var dmpArrs = newArr.concat(dmpArr)
      newArr = dmpArrs
+    }
+    if (selectCats) {
+      var selectCats = newArr.concat(selectCats)
+      newArr = selectCats
+    }
+    if (selectRow) {
+      var selectRow = newArr.concat(selectRow)
+      newArr = selectRow
     }
     if(zhongziObj.crowd_type) {
       newArr.push(zhongziObj)
@@ -77,33 +79,6 @@ class SelectDirection extends React.Component {
     if (likemybodyObj.crowd_type) {
       newArr.push(likemybodyObj)
     }
-    if (Row1value.crowd_type) {
-      newArr.push(Row1value)
-    }
-    if (Row2value.crowd_type) {
-      newArr.push(Row2value)
-    }
-    if (Row3value.crowd_type) {
-      newArr.push(Row3value)
-    }
-    if (Row4value.crowd_type) {
-      newArr.push(Row4value)
-    }
-    if (Row5value.crowd_type) {
-      newArr.push(Row5value)
-    }
-    if (Row6value.crowd_type) {
-      newArr.push(Row6value)
-    }
-    if (Row7value.crowd_type) {
-      newArr.push(Row7value)
-    }
-    if (Row8value.crowd_type) {
-      newArr.push(Row8value)
-    }
-    if (Row9value.crowd_type) {
-      newArr.push(Row9value)
-    }
     if (similarObj.crowd_type) {
       newArr.push(similarObj)
     }
@@ -113,8 +88,7 @@ class SelectDirection extends React.Component {
   }
   rendersubCrowds () {
     var selectData = this.state.selectData
-
-		return (
+    return (
        <div>
 			  {
 					 this.props.zhinengchecked == true
@@ -126,13 +100,12 @@ class SelectDirection extends React.Component {
 					 ? <div style={{lineHeight: '20px', paddingBottom: '8px'}}>通投</div>
 					 : null
 				 }
-			 	{ selectData.length > 0
+			 	{selectData.length > 0
            ? selectData.map((item,index) => {
              return (
                <div key={index} style={{paddingBottom: '8px', lineHeight: '20px'}}>
                  <span>{titleDirection[item.crowd_type]}&nbsp;&nbsp;</span>
-                 <span>{item.sub_crowds ? ':' : ''}&nbsp;&nbsp;</span>
-                 {item.crowd_value && item.crowd_type != 128 ?  <span>{crowdValue[item.crowd_value]} : &nbsp;&nbsp;</span> : ''}
+                 {item.crowd_value && item.crowd_type != 128 ?  <span>{crowdValue[item.crowd_value]}&nbsp;&nbsp;</span> : ''}
                  {item.crowd_name ?  <span>{item.crowd_name}&nbsp;</span> : ''}
 								 {
                    item.crowd_type == 16384

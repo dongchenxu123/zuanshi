@@ -124,7 +124,7 @@ class MonitorListTable extends React.Component {
       <Dialog visible = {this.state.statusVisible}
             onOk = {this.onSure.bind(this)}
             onCancel = {this.onClose.bind(this)}
-            onClose = {this.onClose.bind(this)} title = "设置状态" style={{width: 300, height: 200}}>
+            onClose = {this.onClose.bind(this)} title = "设置状态" style={{width: 300}}>
             <RadioGroup dataSource={list} defaultValue={record.status} onChange={this.changeRadio.bind(this)}/>
       </Dialog>
       <UpdateFormView editVisible={this.state.editVisible}

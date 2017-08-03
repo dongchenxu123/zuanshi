@@ -111,45 +111,45 @@ class LikeMyDirection extends React.Component {
     if(record.PicUrl.indexOf('nopicture.gif') > -1) {
       return (<span>暂无图片</span>)
     } else {
-      return (<img src={record.PicUrl} style={{width: 80, height: 80}}/>)
+      return (<div style={{border:'1px solid #e6e6e6', width: 72, height: 72}}><img src={record.PicUrl} style={{width: 70, height: 70}}/></div>)
     }
   }
   onSure () {
     var select = this.state.rowSelection.selectedRowKeys
-    if(select.length <= 0) {
-      this.showError()
-      return
-    }
     var step = 3
     var type = 'likemybody'
     var crowdType = 262144
     var searchkw = this.state.searchkw
     var itemData = this.state.itemData
     var itemname = []
-    for(var i=0; i<itemData.length;i++) {
+    if (select) {
+      for(var i=0; i<itemData.length;i++) {
       for(var j=0; j<select.length;j++) {
         if(itemData[i].Id == select[j]) {
-          itemname.push({sub_crowd_name: itemData[i].Name, sub_crowd_value: select[j]})
+          var sub_crowd_value = (select[j]).toString()
+          itemname.push({sub_crowd_name: itemData[i].Name, sub_crowd_value: sub_crowd_value})
         }
       }
+     }
+     this.props.commonData({step, select, type, crowdType, searchkw, itemname})
     }
-		this.props.commonData({step, select, type, crowdType, searchkw, itemname})
-		history.push(addfastTestStep3)
+    history.push(addfastTestStep3)
   }
   showError  () {Toast.error('您还没有选择相似宝贝人群')}
   render () {
     return (
-      <div className='panel panel-default' style={{margin: '10px'}}>
+      <div className='panel panel-default' style={{margin: '10px', fontSize: '14px'}}>
         <div className="panel-heading" style={{overflow: 'hidden'}}>
-          相似宝贝定向
+          相似宝贝定向-喜欢我的宝贝的人群
         </div>
         <div className="panel-body" style={{paddingBottom: '50px'}}>
           <div style={{padding: '10px'}}>
-            <Input size="large" placeholder="标签关键词，如大衣"
+            <Input size="large" placeholder="标签关键词，如连衣裙"
                 value={this.state.searchkw}
                 defaultValue={this.state.searchkw}
-                onChange={this.onChangekw.bind(this)}/>
-            <Button type="primary" style={{marginLeft: '15px'}} onClick={this.onClickbtn.bind(this)}>确定</Button>
+                onChange={this.onChangekw.bind(this)}
+                style={{width: '400px'}}/>
+            <Button type="primary" style={{marginLeft: '15px'}} onClick={this.onClickbtn.bind(this)} size="large">搜索</Button>
           </div>
           <div>
           {

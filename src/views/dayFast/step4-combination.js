@@ -224,8 +224,10 @@ renderctr (value, index, record) {
 }
 renderFav (value, index, record) {
    var rpt = record.Rpt
+   var FavItem = rpt.FavItem ? rpt.FavItem : 0
+   var FavShop = rpt.FavShop ? rpt.FavShop : 0
    return (
-     <span>{rpt.FavItem || rpt.FavShop ? rpt.FavItem + rpt.FavShop : 0}</span>
+     <span>{FavItem + FavShop}</span>
    )
 }
 renderAlipayAmt (value, index, record) {

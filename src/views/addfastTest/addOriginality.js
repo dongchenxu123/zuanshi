@@ -43,7 +43,9 @@ class AddOriginalityView extends React.Component {
 			 current: 1,
 			 creativesItem: [],
 			 idsArr: [],
-			 showloading: true
+			 showloading: true,
+			 format_list: 0,
+			 creative_level: 0
     }
 	}
 	isMount=false
@@ -138,11 +140,16 @@ class AddOriginalityView extends React.Component {
 	}
 	//筛选类型
 	onSelectType (value) {
+		var creative_level = this.state.creative_level
+		this.setState({
+			format_list: value
+		})
 		var self = this
 		axios.post(getcreatives, {
-	    format_list: value,
+	    	format_list: value,
 			page_num: 1,
-			page_size: 10
+			page_size: 10,
+			creative_level: creative_level
 	  })
 	  .then(function (response) {
 			var Creatives = response.data.Creatives
@@ -159,10 +166,15 @@ class AddOriginalityView extends React.Component {
 	//筛选等级
 	onSelectLevel (value) {
 		var self = this
+		var format_list = this.state.format_list
+		this.setState({
+			creative_level: value
+		})
 		axios.post(getcreatives, {
-	    creative_level: value,
+	    	creative_level: value,
 			page_num: 1,
-			page_size: 10
+			page_size: 10,
+			format_list: format_list
 	  })
 	  .then(function (response) {
 			var Creatives = response.data.Creatives
@@ -178,13 +190,12 @@ class AddOriginalityView extends React.Component {
 	}
 	onSearch(value) {
         console.log(value);
-  }
+   }
 	onChange(value) {
-		console.log('input is:' + value);
-			this.setState({
+		this.setState({
             value: value
         });
-  }
+    }
 	setClick () {
 		var select = this.state.rowSelection.selectedRowKeys
 		var creativesItem = this.state.creativesItem
@@ -247,7 +258,7 @@ class AddOriginalityView extends React.Component {
 		var selectId = rowSelection.selectedRowKeys;
 		return (
 		 			<div className='panel panel-default' style={{margin: '10px'}}>
-						<div className="panel-heading" style={{overflow: 'hidden'}}>
+						<div className="panel-heading" style={{overflow: 'hidden', fontSize: '14px'}}>
 							<div style={{paddingLeft: '15px', float: 'left'}}><Icon type="picture" />&nbsp;&nbsp;<span>添加创意</span></div>
 							<div style={{float: 'right', paddingRight: '15px'}}>已选创意条数&nbsp;( {selectId.length === 0 ? 0 : selectId.length} )</div>
 						</div>

@@ -290,7 +290,7 @@ class AddResourcesView extends React.Component {
 		var selectId = rowSelection.selectedRowKeys;
 	 return (
 		 <div className='panel panel-default' style={{margin: '10px'}}>
- 			<div className="panel-heading" style={{overflow: 'hidden'}}>
+ 			<div className="panel-heading" style={{overflow: 'hidden', fontSize: '14px'}}>
  				<div style={{paddingLeft: '15px', float: 'left'}}><Icon type="nav-list" />&nbsp;&nbsp;<span>添加资源位</span></div>
 				<div style={{float: 'right', paddingRight: '15px'}}>已选资源位&nbsp;( {selectId.length === 0 ? 0 : selectId.length} )</div>
  			</div>

@@ -183,7 +183,7 @@ class TestTableView extends React.Component {
 					</div>
 					: <div style={{textAlign: 'center', margin: '20px auto', backgroundColor: '#fff', padding: '50px 0'}}>
 							<p style={{marginBottom: '10px'}}><Icon type="cry" />&nbsp;&nbsp;<span>暂无测试方案</span></p>
-							<Link to={addfastTestStep1}><Button>创建新测试</Button></Link>
+							<Link to={addfastTestStep1}><Button type="primary"><Icon type="add" />&nbsp;&nbsp;创建新测试</Button></Link>
 					  </div>
 				}
 			</div>

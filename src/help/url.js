@@ -63,3 +63,4 @@
  export const getTargetRptDay = '/target/rpt/day'
  export const getCreativeRptRt = '/creative/rpt/rt'
  export const getCreativeRptDay = '/creative/rpt/day'
+ export const getCats = '/cats'

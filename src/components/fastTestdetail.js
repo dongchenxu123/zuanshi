@@ -91,32 +91,19 @@ class FasttestdetailView extends React.Component {
      test_id: self.props.match.params.id
 	 })
    .then(function (response) {
-		 if(response.data.length == 0) {
+		 if(response.data.length == 0 || response.data.err) {
 			 self.setState({
 				 showloading: false
 			 })
 		 } else {
 			 var reports = response.data.reports
- 			//  for(var i=0; i<reports.length; i++) {
-  			// 	var newCrowds = reports[i].Combination.Crowds
-			// 		var Creatives = reports[i].Combination.Creatives
-			// 		var Rpts = reports[i].Rpts
-          	//  for(var m=0; m<newCrowds.length; m++) {
-  			// 		newCrowds[m].Crowds_zuanshi_id = m
-			// 		}
-  			// 	reports[i].com_zuanshi_key = i
-			// 		for(var n=0; n<Creatives.length;n++) {
-			// 			for(var k=0; k<Rpts.length; k++) {
-			// 				if(Creatives[n].Id == Rpts[k].CreativeId) {
-			// 					Rpts[k]= Object.assign({}, Creatives[n], Rpts[k])
-			// 				}
-			// 			}
-			// 		}
-  			// }
-			for (var i=0;i<reports.length;i++) {
+ 			 for (var i=0;i<reports.length;i++) {
 				reports[i].checked_list = []
-                reports[i].zuanshi_key = i
-			}
+			  const Combination = reports[i].Combination
+				for (var j=0; j<Combination.length; j++) {
+					reports[i].zuanshi_key = Combination[j].Id
+				}
+      }
 			self.setState({
  				resultData: reports,
  				newResultData: reports,
@@ -157,7 +144,7 @@ class FasttestdetailView extends React.Component {
  }
  rendercreativeimg (Creatives, Rpts, record) {
 	var id = record.zuanshi_key
-	var checked_list = record.checked_list 
+	var checked_list = record.checked_list
 	 return (
 		<div>
 			{
@@ -193,7 +180,6 @@ class FasttestdetailView extends React.Component {
 					<div style={{margin: '10px', lineHeight: '40px'}} key={index}>
 						{
 							<span>{item.Pv}</span>
-
 						}
 					</div>
 				)
@@ -495,7 +481,7 @@ renderListData(){
       }
     }
   }
-  if (combination){
+  if (combination) {
     let checked_list = combination.checked_list || []
     var idx = checked_list.indexOf(CreativesId)
     if(checked && idx < 0) {
