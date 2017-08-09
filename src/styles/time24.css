@@ -1,0 +1,25 @@
+.Time24Item{
+    width: 24px;
+    height: 24px;
+    background-color: #eee;
+}
+.TimeItemStyleCb{
+   visibility: hidden;
+}
+.Time24Item .labeltxt{
+    position: absolute;
+    z-index: 2;
+    user-select: none;
+}
+.Time24Item .bg{
+  background-color: #eee;
+}
+.itemChecked .labeltxt{
+     color: #1DA57A;
+}
+.itemChecked .Time24Item .bg{
+    background-color: #1DA57A
+}
+.TimeItemStyleCb:checked .TimeItemStyleCb{
+    background-color: #1DA57A
+}
