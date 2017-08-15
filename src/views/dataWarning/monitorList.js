@@ -2,7 +2,9 @@ import React from 'react';
 import Button from 'qnui/lib/button';
 import AddMonitorView from './addMonitor';
 import { adgroupList, compaignList } from '../../help/url';
+import MonitorListTable from './monitorListTable';
 import axios from 'axios';
+import Icon from 'qnui/lib/icon';
 class MonitorListView extends React.Component {
   constructor() {
     super()
@@ -15,6 +17,7 @@ class MonitorListView extends React.Component {
       campaignsId: []
     }
   }
+  isMount=false
   loadData (url) {
     var self = this
     axios.get(url, {
@@ -27,11 +30,13 @@ class MonitorListView extends React.Component {
         newArr.push(response.data.campaigns[i].Name)
         campaignsId.push(response.data.campaigns[i].Id)
       }
-      self.setState({
-        campaignsData: response.data.campaigns,
-        campaignsName: newArr,
-        campaignsId: campaignsId
-      })
+      if(self.isMount) {
+        self.setState({
+          campaignsData: response.data.campaigns,
+          campaignsName: newArr,
+          campaignsId: campaignsId
+        })
+      }
     })
     .catch(function (error) {
       console.log(error);
@@ -46,35 +51,43 @@ class MonitorListView extends React.Component {
       for(var i=0; i<adgroups.length; i++) {
         newArr.push('adgroupid: '+ adgroups[i].Adgroup.Name + ' ———— ' + adgroups[i].Campaign.Name)
       }
-      self.setState({
-        adgroupName: newArr,
-        adgroupData: adgroups
-      })
+      if(self.isMount) {
+        self.setState({
+          adgroupName: newArr,
+          adgroupData: adgroups
+        })
+      }
     })
     .catch(function (error) {
       console.log(error);
     });
   }
-  onOpen () {
-    this.setState({
-        visible: true
-    })
-    this.loadData(compaignList)
-    this.loadadgroupData()
+  componentDidMount () {
+	 this.isMount=true
+	}
+ componentWillUnmount() {
+	 this.isMount=false
+ }
+ onOpen () {
+  this.setState({
+      visible: true
+  })
+  this.loadData(compaignList)
+  this.loadadgroupData()
  }
  onClose () {
-    this.setState({
-        visible: false
-    })
+  this.setState({
+      visible: false
+  })
 }
 render () {
   return (
       <div>
         <div>
-          <Button type="primary" onClick={this.onOpen.bind(this)}>添加监控</Button>
+          <Button type="primary" onClick={this.onOpen.bind(this)}><Icon type="add" />&nbsp;&nbsp;添加监控</Button>
         </div>
         <div style={{padding: '10px 0 50px 0'}}>
-          <div style={{textAlign: 'center'}}>暂无数据</div>
+          <MonitorListTable metricsData={this.props.metricsData} loadwarnlistData={this.props.loadwarnlistData}/>
         </div>
         <AddMonitorView visible={this.state.visible}
                         onOk = {this.onClose.bind(this)}
@@ -83,7 +96,9 @@ render () {
                         title = "添加监控"
                         campaignsData={this.state.campaignsData}
                         adgroupData={this.state.adgroupData}
-                        campaignsId={this.state.campaignsId}/>
+                        campaignsId={this.state.campaignsId}
+                        loadwarnlistData={this.props.loadwarnlistData}
+                        />
       </div>
     )
   }

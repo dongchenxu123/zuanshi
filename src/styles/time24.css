@@ -1,7 +1,3 @@
-.TimeItemStyleCb {
-  visibility: hidden;
-}
-
 .Time24Item{
     width: 24px;
     height: 24px;
@@ -9,7 +5,6 @@
 }
 .TimeItemStyleCb{
    visibility: hidden;
-
 }
 .Time24Item .labeltxt{
     position: absolute;
@@ -22,7 +17,7 @@
 .itemChecked .labeltxt{
      color: #1DA57A;
 }
-.itemChecked .TimeItemStyleCb{
+.itemChecked .Time24Item .bg{
     background-color: #1DA57A
 }
 .TimeItemStyleCb:checked .TimeItemStyleCb{

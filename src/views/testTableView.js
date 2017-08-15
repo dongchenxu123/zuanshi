@@ -39,6 +39,9 @@ class TestTableView extends React.Component {
 			page_size: 1
 		})
    .then(function (response) {
+	  if (response.data.err) {
+         return
+	  }
       var tests = response.data.tests
 			for(var i=0; i<tests.length; i++) {
 				var testId = tests[i].id
@@ -128,18 +131,22 @@ class TestTableView extends React.Component {
 				<Button onClick={this.startBtn.bind(this, record.id)} loading={this.state.loading} type="secondary">
 					开始测试
 				 </Button>
+				 <Button onClick={this.discardBtn.bind(this, record.id)} loading={this.state.discardLoading}
+			      type="secondary">放弃测试</Button>
+				 <Link to={'/fast/test/detail/'+ record.id +'/'+ record.title+ '/' +record.online_status}>
+					<Button>测试结果</Button>
+				</Link>
 			</ButtonGroup>)
 		}
 		if(record.online_status == 1) {
-			var title = encodeURI(record.title)
 			return (
 				<ButtonGroup>
 				<Button onClick={this.stopBtn.bind(this, record.id)} loading={this.state.iconLoading}
-				type="secondary">暂停测试</Button>
-				<Button onClick={this.discardBtn.bind(this, record.id)} loading={this.state.iconLoading}
-				type="secondary">放弃测试</Button>
-			<Link to={'/fast/test/detail/'+ record.id +'/'+ title}>
-				<Button>查看详情</Button>
+			type="secondary">暂停测试</Button>
+			<Button onClick={this.discardBtn.bind(this, record.id)} loading={this.state.discardLoading}
+			type="secondary">放弃测试</Button>
+			<Link to={'/fast/test/detail/'+ record.id +'/'+ record.title+ '/'+ record.online_status}>
+				<Button>测试结果</Button>
 			</Link>
 			</ButtonGroup>
 		 )
@@ -147,8 +154,8 @@ class TestTableView extends React.Component {
 		if(record.online_status != 2) {
 			return (
 				<ButtonGroup>
-					<Link to={'/fast/test/detail/'+ record.id +'/'+ title}>
-						<Button>查看详情</Button>
+					<Link to={'/fast/test/detail/'+ record.id +'/'+ record.title+ '/' +record.online_status}>
+						<Button>测试结果</Button>
 					</Link>
 				</ButtonGroup>
 			)
@@ -157,13 +164,6 @@ class TestTableView extends React.Component {
 	render () {
 		 const onChange = function(...args){
 	     console.log(...args);
-	 },
-	 renderLink= (value, index, record) => {
-		 if(record.online_status == 2) {
-			 return (<span>无测试详情</span>)
-		  } else {
-			 return (<Link to={'/fast/test/detail/'+ record.id + record.title} title={record.title}>查看详情</Link>)
-		 }
 	 }
 	var testsData = this.state.testsData
 	return (
@@ -183,7 +183,7 @@ class TestTableView extends React.Component {
 					</div>
 					: <div style={{textAlign: 'center', margin: '20px auto', backgroundColor: '#fff', padding: '50px 0'}}>
 							<p style={{marginBottom: '10px'}}><Icon type="cry" />&nbsp;&nbsp;<span>暂无测试方案</span></p>
-							<Link to={addfastTestStep1}><Button>创建新测试</Button></Link>
+							<Link to={addfastTestStep1}><Button type="primary"><Icon type="add" />&nbsp;&nbsp;创建新测试</Button></Link>
 					  </div>
 				}
 			</div>

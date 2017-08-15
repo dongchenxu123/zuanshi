@@ -11,7 +11,8 @@ import PeopleDirection from '../views/addfastTest/peopleDirection';
 import SimilarDirection from '../views/addfastTest/similarDirection';
 import LikeMyDirection from '../views/addfastTest/likemybabyDirection';
 import CombinationsView from '../views/addfastTest/combinations';
-export const routes = [
+import CatsDiectionView from '../views/addfastTest/catsDirection';
+export const AddTestRoutes = [
 	{
 		path: '/add/fast/1',
 		component: AddOriginalityView
@@ -55,6 +56,10 @@ export const routes = [
 	{
 		path: '/add/Type=8192',
 		component: PeopleDirection
+	},
+	{
+		path: '/add/Type=524288',
+		component: CatsDiectionView
 	},
 	{
 		path: '/add/Type=131072',

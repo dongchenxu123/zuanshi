@@ -8,6 +8,7 @@ import Loading from 'qnui/lib/loading';
 import {addfastTestStep3} from '../../help/linkUrl';
 import createHistory from 'history/createHashHistory';
 import Feedback from 'qnui/lib/feedback';
+import Switch from 'qnui/lib/switch';
 const Toast = Feedback.toast;
 const history = createHistory()
 class PeopleDirection extends React.Component {
@@ -17,13 +18,19 @@ class PeopleDirection extends React.Component {
       peopleData: [],
       selectList: [],
       selectName: [],
-      allData: []
+      allData: [],
+      isexpandable:false
     }
   }
   isMount=false
   componentWillMount () {
     var self = this;
     var selectTagsId = this.props.data.peopleDirection.selectTagsId
+    var peopleIsexpandable = this.props.data.peopleIsexpandable
+    this.setState({
+        isexpandable: peopleIsexpandable
+    })
+
     if(selectTagsId) {
       this.setState({
         selectList: selectTagsId
@@ -70,42 +77,71 @@ class PeopleDirection extends React.Component {
     var peoplecrowdType = 8192
     var type = 'people'
     var selectTagsName = []
-    if(selectTagsId.length > 0) {
+    var isexpandable = this.props.data.peopleIsexpandable
+    var peopleObj = {}
+    // if(selectTagsId.length > 0) {
       for(var i=0; i< peopleData.length; i++) {
         for(var j=0; j< selectTagsId.length; j++) {
           if(peopleData[i].Id == selectTagsId[j]) {
-            selectTagsName.push({sub_crowd_name:peopleData[i].Name, sub_crowd_value: selectTagsId[j]})
+            var sub_crowd_value = (selectTagsId[j]).toString()
+            selectTagsName.push({sub_crowd_name:peopleData[i].Name, sub_crowd_value: sub_crowd_value})
           }
         }
       }
-      this.props.commonData({type, step, selectTagsId, selectTagsName, peoplecrowdType})
+      // if(isexpandable == true) {
+      //   this.props.commonData({type, step, selectTagsId, selectTagsName, peoplecrowdType, isexpandable})
+    	// } else {
+      if (selectTagsName.length > 0) {
+        peopleObj = {
+          crowd_type: peoplecrowdType,
+          sub_crowds: selectTagsName,
+          expandable: isexpandable
+        }
+      } else {
+        peopleObj = {}
+      }
+      this.props.commonData({type, step, selectTagsId, selectTagsName, peoplecrowdType, peopleObj})
+    	// }
       history.push(addfastTestStep3)
-    } else {
-      this.showError()
-    }
+    // }
   }
-  showError  () {Toast.error('您还没有选择人群')}
+  // showError  () {Toast.error('您还没有选择人群')}
+  onChangeExpandable(value) {
+    this.setState({
+      isexpandable: value
+    })
+    var step = 3
+    var type = 'isexpandvalue'
+    var isexpandvalue = value
+    this.props.commonData({step, type, isexpandvalue})
+  }
   render () {
     var peopleData = this.state.peopleData
     var select = this.state.selectList
     return (
-      <div className='panel panel-default' style={{margin: '10px'}}>
-        <div className="panel-heading" style={{overflow: 'hidden'}}>
-          群体定向
+      <div className='panel panel-default'>
+        <div className="panel-heading">
+          <span style={{fontSize: '14px'}}>群体定向</span>
+          <span style={{paddingLeft: '30px'}}>是否自由组合:</span>
+          <Switch style={{marginLeft: '20px', verticalAlign: 'middle'}}
+                  checkedChildren="是"
+                  onChange={this.onChangeExpandable.bind(this)}
+                  unCheckedChildren="否"
+                  disabled={select.length >= 2 ? false : true}
+                  checked={this.state.isexpandable}/>
         </div>
         <div className="panel-body" style={{paddingBottom: '50px'}}>
           <div>
-            <div style={{padding: '10px'}}>标签</div>
-              {
-                peopleData
+            {
+              peopleData
                 ? peopleData.map((item, index) =>{
                   return (
                     <div key={item.Id}>
-                      <div style={{padding: '10px', float: 'left'}}>
+                      <div className='col-md-2'>
                         <div>
                           <Checkbox onChange={this.changeCheckbox.bind(this, item.Id)}
                                     checked={select.indexOf(item.Id) > -1}>
-                          {item.Name}
+                           <span style={{fontWeight: 'normal'}}>{item.Name}</span>
                           </Checkbox>
                         </div>
                       </div>

@@ -3,6 +3,7 @@
  */
 import React, {PropTypes} from 'react'
 import Button from 'qnui/lib/button';
+import {Icon} from 'antd';
 export default class EditInline extends React.Component {
   constructor () {
     super()
@@ -29,11 +30,11 @@ export default class EditInline extends React.Component {
   // }
   renderInput () {
     var props = this.props
-    var propsCpm = props.cpm ? props.cpm : this.state.cpm
+    var propsCpm = props.cpm === 0 ? 30 : props.cpm
     return (
-      <div className='text-center ant-input-group' style={{margin: '0 auto', width: '100%'}}>
+      <div className='text-center ant-input-group'>
         <span>
-          <input type='text'  ref='sendEl' name='sendEl' style={{height: '27px', width: '50px'}} defaultValue={propsCpm}
+          <input type='text'  ref='sendEl' name='sendEl' style={{height: '27px', width: '100px'}} defaultValue={propsCpm}
                  />
         </span>
         <Button type="primary" onClick={ this.submitHandler.bind(this) } style={{borderBottomLeftRadius: 0, borderTopLeftRadius: 0}}>确定</Button>
@@ -49,15 +50,13 @@ export default class EditInline extends React.Component {
   render () {
    var props = this.props
    var editcpm = this.state.editcpm
-   var propsCpm = props.cpm ? props.cpm : this.state.cpm
+   var propsCpm = props.cpm === 0 ? 30 : props.cpm
   return (
-      <div>
-      <div style={{marginBottom: '10px'}}>出价:<span style={{paddingLeft: '8px'}}>{propsCpm}</span></div>
-      { editcpm
-        ? this.renderInput()
-        : <Button onClick={this.onChange.bind(this)}>修改出价</Button>
-      }
-
+      <div style={{float: 'left'}}>
+        { editcpm
+          ? this.renderInput()
+          : <div><span>￥ {propsCpm}</span><Icon type="edit" onClick={this.onChange.bind(this)}/></div>
+        }
       </div>
     )
   }

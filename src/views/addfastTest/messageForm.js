@@ -44,6 +44,7 @@ class MessageFormView extends React.Component {
 				var creativesItem = this.props.data.creativesItem
 				var areaIds = this.props.data.step4
 				var speed_type = values.type
+				var adgroupModal = values.adgroupModal
 				var combinationdata = this.props.data.combinationdata
 		  	var combinationItem = combinationdata.combinationItem
 				var combination = combinationdata.combinationData
@@ -55,10 +56,7 @@ class MessageFormView extends React.Component {
 			 	var value = this.state.value
 				var startDate = values.startDate
 				var endDate = values.endDate
-				for(var i=0; i<combination.length; i++) {
-			 			 sum += combination[i].cpm
-			 			 cpm = sum/1000 * value
-			 	}
+
         if (newstartDates) {
 					var startDates = newstartDates
 				} else {
@@ -91,21 +89,15 @@ class MessageFormView extends React.Component {
 		    var tongtouObj = this.props.data.tongtouObj
 		    var peopleObj = this.props.data.peopleObj
 		    var interestObj = this.props.data.interestObj
-		    var likemybodyObj = this.props.data.likemybodyObj
-				var Row1value = this.props.data.Row1value
-		    var Row2value = this.props.data.Row2value
-		    var Row3value = this.props.data.Row3value
-		    var Row4value = this.props.data.Row4value
-		    var Row5value = this.props.data.Row5value
-		    var Row6value = this.props.data.Row6value
-		    var Row7value = this.props.data.Row7value
-		    var Row8value = this.props.data.Row8value
-		    var Row9value = this.props.data.Row9value
-		    var tiaoguoObj = this.props.data.tiaoguoObj
+				var likemybodyObj = this.props.data.likemybodyObj
+				var selectRow = this.props.data.sceneObj.selectRow //营销场景定向
+				var tiaoguoObj = this.props.data.tiaoguoObj
 		    var similarObj = this.props.data.similarObj
 		    var zhinengObj = this.props.data.zhinengObj
 		    var checked = this.props.data.checked
 		    var zhinengchecked = this.props.data.zhinengchecked
+				var dmpArr = this.props.data.dmpArr
+				var selectCats = this.props.data.catsObj.selectCats
 				if(tiaoguoObj.crowd_type) {
 		      newArr.push(tiaoguoObj)
 		    }
@@ -115,6 +107,14 @@ class MessageFormView extends React.Component {
 		    if(zhongziObj.crowd_type) {
 		      newArr.push(zhongziObj)
 		    }
+				if(dmpArr) {
+				var dmpArrs = newArr.concat(dmpArr)
+				 newArr = dmpArrs
+				}
+				if (selectCats) {
+					var selectCats = newArr.concat(selectCats)
+					newArr = selectCats
+				}
 		    if(checked == true) {
 		      newArr.push(tongtouObj)
 		    }
@@ -127,33 +127,10 @@ class MessageFormView extends React.Component {
 		    if (likemybodyObj.crowd_type) {
 		      newArr.push(likemybodyObj)
 		    }
-				if (Row1value.crowd_type) {
-		      newArr.push(Row1value)
-		    }
-		    if (Row2value.crowd_type) {
-		      newArr.push(Row2value)
-		    }
-		    if (Row3value.crowd_type) {
-		      newArr.push(Row3value)
-		    }
-		    if (Row4value.crowd_type) {
-		      newArr.push(Row4value)
-		    }
-		    if (Row5value.crowd_type) {
-		      newArr.push(Row5value)
-		    }
-		    if (Row6value.crowd_type) {
-		      newArr.push(Row6value)
-		    }
-		    if (Row7value.crowd_type) {
-		      newArr.push(Row7value)
-		    }
-		    if (Row8value.crowd_type) {
-		      newArr.push(Row8value)
-		    }
-		    if (Row9value.crowd_type) {
-		      newArr.push(Row9value)
-		    }
+				if (selectRow) {
+					var selectRow = newArr.concat(selectRow)
+					newArr = selectRow
+				}
 		    if (similarObj.crowd_type) {
 		      newArr.push(similarObj)
 		    }
@@ -166,7 +143,7 @@ class MessageFormView extends React.Component {
 				var type = 'form'
 				var step = 3
 				var budget = values.budget
-				this.props.commonData({step, type, name, impressions,startDates, speed_type})
+				this.props.commonData({step, type, name, impressions,startDates, speed_type, adgroupModal})
 				axios.post(createForm, {
 			    adzones: AdzonesItem,
 					creatives: creativesItem,
@@ -177,11 +154,14 @@ class MessageFormView extends React.Component {
 					end_time: endDateTime,
 					impressions: impressions,
 					crowds: newArr,
-					title: name
+					title: name,
+					adgroup_model: adgroupModal
+
 			  })
 			  .then(function (response) {
 					var test_id = response.data.test_id
-					if(response.data.msg == 'ok') {
+					console.log(response, test_id)
+					if(!response.data.err) {
 						axios.post(createCombinations, {
 					    test_id: test_id,
 					    combinations: combination
@@ -197,7 +177,7 @@ class MessageFormView extends React.Component {
 					    console.log(error);
 					  });
 					} else{
-						Toast.error('您填写的信息有误')
+						Toast.error(response.data.err)
 					}
 		    })
 			  .catch(function (error) {
@@ -219,18 +199,21 @@ class MessageFormView extends React.Component {
             span: 14
         }
     }
-	 var combinationdata = this.props.data.combinationdata
+	 var combinationdata = this.props.data.combinationdata //所有数据
  	 var combinationItem = combinationdata.combinationItem
- 	 var combination = combinationdata.combinationData
+ 	 var combination = combinationdata.combinationObj //选择的创意的数据
 	 var sum = 0
 	 var cpm = 0
 	 var value = this.state.value
+	 var combinations = Object.keys(combination).map(key=> combination[key])
 	 if(combination) {
-		 for(var i=0; i<combination.length; i++) {
-			 sum += combination[i].cpm
-			 cpm = sum/1000 * value
+		 for(var i=0; i<combinations.length; i++) {
+			 for(var k=0; k<combinations[i].Crowds.length; k++) {
+				 sum += combinations[i].Crowds[k].matrix_price[0].Price *1
+				 cpm = (sum/1000 * value)/100
+			 }
 		 }
-	 }
+	}
 	 var name = this.props.data.formData.name
 	 var impressions = this.props.data.formData.impressions
 	 var startDates = this.props.data.formData.startDates
@@ -238,6 +221,7 @@ class MessageFormView extends React.Component {
 	 var startTime = this.props.data.formData.startTime
 	 var endTime = this.props.data.formData.endTime
 	 var speed_type = this.props.data.formData.speed_type
+	 var adgroupModal = this.props.data.formData.adgroupModal
    return (
 		 <div className='panel panel-default' style={{margin: '10px'}}>
 			 <div className="panel-heading" style={{overflow: 'hidden'}}>
@@ -278,7 +262,7 @@ class MessageFormView extends React.Component {
                       {...formItemLayout}>
 											<p {...init('combination', {
 
-											})}>组合方案：{combinationItem ? combinationItem.length : 0} 个</p>
+											})}>组合方案：{combinations ? combinations.length : 0} 个</p>
 											<br/>
 											<p {...init('cost', {
 
@@ -347,6 +331,18 @@ class MessageFormView extends React.Component {
 		                <Radio value="1">尽快投放</Radio>
 		            </RadioGroup>
 		        </FormItem>
+						<FormItem
+							label="创意方式:"
+							{...formItemLayout}>
+							<RadioGroup {...init('adgroupModal', {
+								rules: [
+										{required: true}
+									]}
+								)} defaultValue={adgroupModal ? adgroupModal : '2'}>
+									<Radio value="2">单元多创意</Radio>
+									<Radio value="1">单元单创意</Radio>
+							</RadioGroup>
+					</FormItem>
 						<FormItem
                     wrapperCol={{ span: 12, offset: 12 }}>
 										<div style={{float: 'right'}}>

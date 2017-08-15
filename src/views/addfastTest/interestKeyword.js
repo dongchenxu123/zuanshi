@@ -18,15 +18,8 @@ class InteresKeywordView extends React.Component {
    }
   render () {
     return (
-      <div>
-        <div style={{padding: '10px'}}>
-          <Input size="large" placeholder="标签关键词，如大衣"
-              value={this.props.keyword}
-              defaultValue={this.props.keyword}
-              onChange={this.props.onChangeKeywords.bind(this)}/>
-          <Button type="primary" style={{marginLeft: '15px'}} onClick={this.props.onClickKeyword}>确定</Button>
-        </div>
-        {
+      <div style={{marginTop: '15px'}}>
+       {
           this.props.keywordData
           ? <Transfer
               dataSource={this.props.keywordData}

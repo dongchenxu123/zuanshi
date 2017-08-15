@@ -90,28 +90,34 @@ class UvDirection extends React.Component {
     var subCrowds = []
     var zizhuObj = {}
     var zhongziObj = {}
-    if(crowdValue.length <= 0) {
-      this.showError()
-      return
-    }
+    // if(crowdValue.length <= 0) {
+    //   this.showError()
+    //   return
+    // }
     for(var i=0; i<crowdValue.length; i++) {
-      if (crowdValue[i] == 1 && subCrowdName == '') {
-          Toast.error('您没有填写店铺名称!')
-          return
+      if (crowdValue[i] == 1) {
+        if (subCrowdName == undefined) {
+           Toast.error('请填写自主店铺名称!')
+           return
+        }
+         
       }
-      if (crowdValue[i] == 2 && subzhongziName == '') {
-          Toast.error('您没有填写店铺名称!')
+      if (crowdValue[i] == 2) {
+        if (subzhongziName == undefined) {
+          Toast.error('请填写种子店铺名称!')
           return
+        }
       }
-      if(crowdValue[i] == 1 && subCrowdName != '') {
+      
+      if(crowdValue[i] == 1) {
         var type = 'zizhuuv'
-        zizhuObj={crowd_type: uvcrowdType, crowd_value: 1, sub_crowds: [{sub_crowd_name: subCrowdName}]}
+        zizhuObj={crowd_type: uvcrowdType, crowd_value: '1', sub_crowds: [{sub_crowd_name: subCrowdName}]}
         this.props.commonData({type, step, crowdValue, subCrowdName, zizhuObj})
       }
-      if (crowdValue[i] == 2 && subzhongziName != '') {
-        var type = 'zhongziuv'
-        zhongziObj={crowd_type: uvcrowdType, crowd_value: 2, sub_crowds: [{sub_crowd_name: subzhongziName}]}
-        this.props.commonData({type, step, crowdValue, subzhongziName, zhongziObj})
+      if (crowdValue[i] == 2) {
+        var zhongziType = 'zhongziuv'
+        zhongziObj={crowd_type: uvcrowdType, crowd_value: '2', sub_crowds: [{sub_crowd_name: subzhongziName}]}
+        this.props.commonData({zhongziType, step, crowdValue, subzhongziName, zhongziObj})
       }
     }
    history.push(addfastTestStep3)
@@ -120,7 +126,7 @@ class UvDirection extends React.Component {
   render () {
     var select=this.state.selectList
     return (
-      <div className='panel panel-default' style={{margin: '10px'}}>
+      <div className='panel panel-default' style={{margin: '10px', fontSize: '14px'}}>
         <div className="panel-heading" style={{overflow: 'hidden'}}>
           访客定向
         </div>

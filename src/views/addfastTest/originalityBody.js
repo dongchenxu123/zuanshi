@@ -44,7 +44,7 @@ class OriginalityBody extends React.Component {
   renderImg (value, index, record) {
 		return (<img src={record.ImagePath} style={{width:300, height: 'auto'}}/>)
 	}
-	renderTable () {
+  renderTable () {
 		var data = this.props.data
 		for (var i=0; i< data.length; i++) {
 			if(data[i].Format === 2) {
@@ -54,69 +54,49 @@ class OriginalityBody extends React.Component {
 			}
 		}
 	}
-	render () {
+  render () {
 		return (
 		 <div>
-		   <div>
-			 <div className='col-md-9'>
-       {/*<div className='col-md-4'>
-           <Search placeholder="What are you looking for..."
-               onChange={this.props.onChange}
-               onSearch={this.props.onSearch}/>
-	      </div>*/}
-				{
-					this.state.FormatsType
-					? <div className='col-md-2'>
-						<Select placeholder="全部类型" onChange={this.props.onSelectType}>
-						    <Option value="">全部类型</Option>
-								<Option value="2">图片创意</Option>
-								<Option value="3">Flash创意</Option>
-								<Option value="4">视频创意</Option>
-								<Option value="5">文字链创意</Option>
-								<Option value="9">Flash不遮盖创意</Option>
-								<Option value="10">模板创意</Option>
-						</Select>
-	 	      </div>
-					: null
-				}
-				{
-					this.state.LevelsType
-					? <div className='col-md-2'>
-						<Select placeholder="全部等级" onChange={this.props.onSelectLevel}>
-							 <Option value="">全部等级</Option>
-							 <Option value="1">一级</Option>
-							 <Option value="2">二级</Option>
-							 <Option value="3">三级</Option>
-							 <Option value="4">四级</Option>
-							 <Option value="10">十级</Option>
-							 <Option value="99">未分等级</Option>
-					 </Select>
-	 	      </div>
-					: null
-				}
-				{/*<div className='col-md-2'>
-					<Select placeholder="选择尺寸" onChange={this.props.onSelectType}>
-						 <Option value="small">Small</Option>
-						 <Option value="medium">Medium</Option>
-						 <Option value="large">Large</Option>
-				 </Select>
- 	      </div>*/}
-				</div>
-      </div>
-       {
+		   {
+			this.state.FormatsType
+			? <Select placeholder="全部类型" onChange={this.props.onSelectType} style={{width: '200px', float: 'left'}}>
+					<Option value="">全部类型</Option>
+						<Option value="2">图片创意</Option>
+						<Option value="3">Flash创意</Option>
+						<Option value="4">视频创意</Option>
+						<Option value="5">文字链创意</Option>
+						<Option value="9">Flash不遮盖创意</Option>
+						<Option value="10">模板创意</Option>
+			</Select>
+			: null
+			}
+			{
+				this.state.LevelsType
+				? <Select placeholder="全部等级" onChange={this.props.onSelectLevel} style={{width: '200px', float: 'left', marginLeft: '15px'}}>
+						<Option value="">全部等级</Option>
+						<Option value="1">一级</Option>
+						<Option value="2">二级</Option>
+						<Option value="3">三级</Option>
+						<Option value="4">四级</Option>
+						<Option value="10">十级</Option>
+						<Option value="99">未分等级</Option>
+				</Select>
+				: null
+			}
+		{
          this.props.data
          ?
          <Table dataSource={this.props.data}
                       rowSelection={this.props.rowSelection} style={{clear: 'both', paddingTop: '8px'}} primaryKey='Id'
 											>
            {
-						 this.renderTable()
-						}
-					 <Table.Column width={200} title="创意基本信息" dataIndex='Name'/>
+			this.renderTable()
+		   }
+		   <Table.Column width={200} title="创意基本信息" dataIndex='Name'/>
            <Table.Column cell={this.props.status} width={200} title="创意状态"/>
            <Table.Column cell={this.props.level} width={200} title="创意等级"/>
-					 <Table.Column cell={this.props.creativeSize} width={200} title="创意尺寸"/>
-					 <Table.Column width={200} title="推广链接" dataIndex='ClickUrl'/>
+		   <Table.Column cell={this.props.creativeSize} width={200} title="创意尺寸"/>
+		   <Table.Column width={200} title="推广链接" dataIndex='ClickUrl'/>
         </Table>
          : <div style={{margin: '50px auto', textAlign: 'center', clear: 'both'}}>
              <p>暂获取不到数据</p>

@@ -69,7 +69,7 @@ class AddResourcesView extends React.Component {
 	}
 	onSelectAll (selected, records) {
 		let {rowSelection} = this.state;
-		var AdzonesItem = this.state.AdzonesItem;
+		var AdzonesItem = this.state.AdzonesItem = [];
 		if(selected) {
 			for(var i=0; i<records.length; i++) {
 				if(rowSelection.selectedRowKeys.indexOf(records[i].Id) == -1) {
@@ -222,6 +222,11 @@ class AddResourcesView extends React.Component {
 	  .then(function (response) {
 			var Adzones =  response.data.Adzones;
 			var totalnum = response.data.Total;
+			if (response.data.err) {
+               self.setState({
+				   showloading: false
+			   })
+			}
 			if(self.isset) {
 				self.setState({
 					AdzonesData: Adzones,
@@ -285,7 +290,7 @@ class AddResourcesView extends React.Component {
 		var selectId = rowSelection.selectedRowKeys;
 	 return (
 		 <div className='panel panel-default' style={{margin: '10px'}}>
- 			<div className="panel-heading" style={{overflow: 'hidden'}}>
+ 			<div className="panel-heading" style={{overflow: 'hidden', fontSize: '14px'}}>
  				<div style={{paddingLeft: '15px', float: 'left'}}><Icon type="nav-list" />&nbsp;&nbsp;<span>添加资源位</span></div>
 				<div style={{float: 'right', paddingRight: '15px'}}>已选资源位&nbsp;( {selectId.length === 0 ? 0 : selectId.length} )</div>
  			</div>

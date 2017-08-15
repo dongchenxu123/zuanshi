@@ -10,10 +10,6 @@ import {routes} from '../../routes/add'
 import createHistory from 'history/createHashHistory'
 const history = createHistory()
 
-window.onbeforeunload = function () {
-   var warning="您刷新后将不能保留您之前添加的内容，您需返回首页重新添加！";
-   return warning;
-}
 class AddTestPlanLayout extends React.Component {
   constructor (props) {
     super(props)
@@ -43,31 +39,30 @@ class AddTestPlanLayout extends React.Component {
       interestTab3: {},
       similarDirection: {},
       likeMybobyDirection: {},
-      tongtouObj: {},
-      zizhuObj: {},
-      zhongziObj: {},
-      similarObj: {},
-      likemybodyObj: {},
-      interestObj: {},
-      sceneObj: {},
-      peopleObj: {},
-      zhinengObj: {},
+      tongtouObj: {}, //通投
+      zizhuObj: {},  //自主店铺
+      zhongziObj: {}, //种子店铺
+      similarObj: {}, //相似宝贝
+      likemybodyObj: {}, //喜欢相似宝贝
+      interestObj: {}, //兴趣定向
+      sceneObj: {}, //营销场景
+      peopleObj: {}, //人群定向
+      zhinengObj: {}, // 智能定向
       combinationItem: [],
-      combinationdata: {},
-      formData: {},
-      Row1value: {},
-      Row2value: {},
-      Row3value: {},
-      Row4value: {},
-      Row5value: {},
-      Row6value: {},
-      Row7value: {},
-      Row8value: {},
-      Row9value: {},
+      combinationdata: {}, //组合页
+      formData: {}, //创建极速测试
       tiaoguoObj:{},
-      uvzizhuObj: {}
+      uvzizhuObj: {},  //访客自主
+      editPriceData: [],
+      peopleIsexpandable: false,
+      yixiangIsexpandable: false,
+      activeIsexpandable: false,
+      dmpArr: [],   //dmp定向
+      dmpObj: {},
+      catsObj: {} //类目定向
     }
   }
+
   commonData (step) {
     if(step.step == 1) {
       var select = step.select
@@ -87,35 +82,38 @@ class AddTestPlanLayout extends React.Component {
     }
     if(step.step == 3) {
       if (step.type === 'scene') {
-        var sceneDirection = {
-          selectList: step.selectList,
-          value: step.value,
-          sencecrowdType: step.scenecrowdType
-        }
         var sceneObj = {
-          crowdType: step.scenecrowdType,
-          crowdValue: step.value,
-          subCrowdValue: step.selectList
+          selectList: step.selectList,
+          selectRow: step.selectRow,
+          activeList: step.activeList
         }
-        var Row1value = step.Row1value
-        var Row2value = step.Row2value
-        var Row3value = step.Row3value
-        var Row4value = step.Row4value
-        var Row5value = step.Row5value
-        var Row6value = step.Row6value
-        var Row7value = step.Row7value
-        var Row8value = step.Row8value
-        var Row9value = step.Row9value
+        this.setState({
+          sceneObj: sceneObj
+        })
       }
       if (step.type === 'combination') {
         var combinationdata = {
-          combinationItem: step.select,
           combinationData: step.combinationData,
-          data: step.data
+          combinationObj: step.editList
+          // data: step.data
         }
         this.setState({
-          combinationItem: step.select,
           combinationdata: combinationdata
+        })
+      }
+      if(step.type === 'isexpandvalue') {
+        this.setState({
+          peopleIsexpandable: step.isexpandvalue
+        })
+      }
+      if(step.type==='yixiangchecked') {
+        this.setState({
+          yixiangIsexpandable: step.yixiangchecked
+        })
+      }
+      if(step.type==='activeChecked') {
+        this.setState({
+          activeIsexpandable: step.activeChecked
         })
       }
       if (step.type === 'people') {
@@ -123,11 +121,33 @@ class AddTestPlanLayout extends React.Component {
           selectTagsId: step.selectTagsId,
           selectTagsName: step.selectTagsName,
           peoplecrowdType: step.peoplecrowdType
+
         }
-        var peopleObj = {
-          crowd_type: step.peoplecrowdType,
-          sub_crowds: step.selectTagsName
+        var peopleObj = step.peopleObj
+        this.setState({
+          peopleDirection: peopleDirection,
+          peopleObj: peopleObj
+
+        })
+      }
+      if (step.type === 'dmp') {
+        var dmpObj = {
+          selectId: step.select,
+          dmpItem: step.dmpItem
         }
+        this.setState({
+          dmpObj: dmpObj,
+          dmpArr: step.dpmArr
+        })
+      }
+      if (step.type === 'cats') {
+        var catsObj = {
+          selectCats: step.selectCats,
+          selectedRowKeys: step.selectedRowKeys
+        }
+        this.setState({
+          catsObj: catsObj
+        })
       }
       if (step.type === 'zizhuuv') {
         var uvzizhuObj = {
@@ -137,15 +157,23 @@ class AddTestPlanLayout extends React.Component {
           type: step.type
         }
        var zizhuObj = step.zizhuObj
+       this.setState({
+          uvzizhuObj: uvzizhuObj,
+          zizhuObj: zizhuObj
+        })
       }
-      if (step.type === 'zhongziuv') {
+      if (step.zhongziType === 'zhongziuv') {
         var uvDirection = {
           crowdValue: step.crowdValue,
           subzhongziName: step.subzhongziName,
           subObj: step.zhongziObj,
-          type: step.type
+          type: step.zhongziType
         }
        var zhongziObj = step.zhongziObj
+       this.setState({
+           uvDirection: uvDirection,
+           zhongziObj: zhongziObj
+      })
       }
       if(step.type === 'interest') {
         var interestObj = {
@@ -181,7 +209,6 @@ class AddTestPlanLayout extends React.Component {
         this.setState({
           interestObj: interestObj
         })
-
       }
       if (step.type === 'form') {
         var formData={
@@ -190,7 +217,8 @@ class AddTestPlanLayout extends React.Component {
           startDates: step.startDates,
           startTime: step.startTime,
           endTime: step.endTime,
-          speed_type: step.speed_type
+          speed_type: step.speed_type,
+          adgroupModal: step.adgroupModal
         }
         this.setState({
           formData: formData
@@ -219,7 +247,7 @@ class AddTestPlanLayout extends React.Component {
           interestTab3: interestTab3,
         })
       }
-    if(step.type === 'similar') {
+      if(step.type === 'similar') {
         var similarDirection ={
           select: step.select,
           crowdType: step.crowdType,
@@ -230,14 +258,11 @@ class AddTestPlanLayout extends React.Component {
           crowd_type: step.crowdType,
           sub_crowds: step.itemname
         }
-      }
-      if(step.type === 'similar') {
         this.setState({
           similarDirection: similarDirection,
           similarObj: similarObj
         })
       }
-
       if(step.type === 'likemybody') {
         var likeMybobyDirection ={
           select: step.select,
@@ -249,8 +274,6 @@ class AddTestPlanLayout extends React.Component {
           crowd_type: step.crowdType,
           sub_crowds: step.itemname
         }
-      }
-      if(step.type === 'likemybody') {
         this.setState({
           likeMybobyDirection: likeMybobyDirection,
           likemybodyObj: likemybodyObj
@@ -266,16 +289,6 @@ class AddTestPlanLayout extends React.Component {
           tongtouObj: tongtou
         })
       }
-
-
-      // if(step.tongtouchecked == true && step.type === 'tongtou') {
-      //   var obj = {
-      //     crowd_type: 0
-      //   }
-      //    this.setState({
-      //      tongtouObj: obj
-      //    })
-      //  }
       if(step.type === 'zhineng'){
         var obj = {
           crowd_type: 32768
@@ -294,42 +307,11 @@ class AddTestPlanLayout extends React.Component {
       //     zhinengObj: obj
       //   })
       // }
-      if(step.type === 'scene') {
-        this.setState({
-          sceneDirection: sceneDirection,
-          sceneObj: sceneObj,
-          Row1value: Row1value,
-          Row2value: Row2value,
-          Row3value: Row3value,
-          Row4value: Row4value,
-          Row5value: Row5value,
-          Row6value: Row6value,
-          Row7value: Row7value,
-          Row8value: Row8value,
-          Row9value: Row9value
-        })
-      }
-
-      if(step.type === 'people') {
-        this.setState({
-          peopleDirection: peopleDirection,
-          peopleObj: peopleObj
-        })
-      }
-
-      if(step.type === 'zizhuuv') {
-        this.setState({
-          uvzizhuObj: uvzizhuObj,
-          zizhuObj: zizhuObj
-        })
-      }
-     if(step.type === 'zhongziuv') {
-       this.setState({
-           uvDirection: uvDirection,
-           zhongziObj: zhongziObj
-      })
     }
-
+    if(step.step == 'editMax_price') {
+      this.setState({
+        editPriceData: step.editRow
+      })
     }
     if(step.step == 4) {
       var selectArea = step.allAreas
@@ -341,8 +323,6 @@ class AddTestPlanLayout extends React.Component {
         speareas: speAreas
       })
     }
-
-
   }
   render () {
     const self = this;
@@ -354,18 +334,13 @@ class AddTestPlanLayout extends React.Component {
     }
     return (
 	     <div className='home'>
-    			<Router basename={browsername}>
-    				<div>
-    	            {routes.map((route, index) => {
-                    let Component = route.component
-                    let child = () => <Component  commonData={self.commonData.bind(this)}
-                                        data={this.state}/>
+    	            {this.props.routes.map((route, index) => {
                     return (
-                      <Route key={index} exact={route.exact} path={route.path} component={child}/>
+                      <Route key={index} exact={route.exact} path={route.path} render={props => (
+                        <route.component {...props}  commonData={self.commonData.bind(this)}   data={this.state} />
+                      )} />
                     )
                   })}
-            </div>
-         </Router>
        </div>
 		)
   }
