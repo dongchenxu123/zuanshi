@@ -1,3 +1,4 @@
+<<<<<<< HEAD
       p{
 				width:23px;
 				height:23px;
@@ -21,3 +22,28 @@
 			.content{
 				overflow: hidden;
 			}
+=======
+      p{
+				width:23px;
+				height:23px;
+				border: 1px solid #ccc;
+				float: left;
+        text-align: center;
+        margin-bottom: 8px;
+        line-height: 23px !important;
+			}
+			p.disabled{
+        background: white;
+      }
+			p.on{
+				background: #dcfacf;
+        color: #333;
+			}
+			#container{
+				width:650px;
+				height:25px;
+			}
+			.content{
+				overflow: hidden;
+			}
+>>>>>>> a43b3823b062de6e7da27e692def8042fa1e75a2

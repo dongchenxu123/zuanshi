@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 .demo-row {
     margin: 10px 0;
@@ -11,3 +12,18 @@
     line-height: 30px;
     text-align: center;
 }
+=======
+
+.demo-row {
+    margin: 10px 0;
+}
+
+.demo-col-inset {
+    min-height: 30px;
+    border:1px solid #CCC;
+    border-radius: 3px;
+    background-color:#ECECEC;
+    line-height: 30px;
+    text-align: center;
+}
+>>>>>>> a43b3823b062de6e7da27e692def8042fa1e75a2

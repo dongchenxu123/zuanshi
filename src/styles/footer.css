@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #root{
       padding-bottom: 150px;
     }
@@ -31,3 +32,38 @@
     .style{
       bottom:50px !important
     }
+=======
+#root{
+      padding-bottom: 150px;
+    }
+    .panel-subhead{
+      padding: 5px 15px;
+      background-color: #efefef;
+    }
+    .footer{
+      border-top: 1px solid #eee;
+      color: #DCDCDC !important;
+      padding-top: 35px;
+      padding-bottom: 28px;
+      margin-top: 150px;
+    }
+    .footer ul{
+      list-style: none;
+      display: inline-block;
+    }
+    .footer li.split{
+      margin: 0 10px;
+    }
+    .footer ul li{
+      float: left;
+    }
+    .footer ul li a{
+      color: #999;
+    }
+    .footer .pixline{
+      margin: 5px 0;
+    }
+    .style{
+      bottom:50px !important
+    }
+>>>>>>> a43b3823b062de6e7da27e692def8042fa1e75a2

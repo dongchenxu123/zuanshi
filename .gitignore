@@ -1,2 +1,10 @@
+<<<<<<< HEAD
 node_modules
 npm-debug.log
+=======
+.DS_STORE
+*.log
+
+node_modules
+coverage
+>>>>>>> a43b3823b062de6e7da27e692def8042fa1e75a2

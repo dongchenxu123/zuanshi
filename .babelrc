@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //babel配置文件，不需要做修改，因为都配置好了
 {
   "presets": [
@@ -31,3 +32,38 @@
     }
   }
 }
+=======
+//babel配置文件，不需要做修改，因为都配置好了
+{
+  "presets": [
+    "stage-0",
+    "latest",
+    "react",
+    "stage-1",
+    "stage-2",
+    "stage-3"
+  ],
+  "plugins": [
+    "transform-decorators-legacy",
+    "transform-async-to-generator",
+    "transform-do-expressions",
+    "syntax-do-expressions",
+    ["import", {"libraryName": "antd","style": true}],
+    ["import", { "style": "css", "libraryName": "antd-mobile" }],
+    ["transform-imports", {
+                "qnui": {
+                    "transform": "qnui/lib/${member}",
+                    "preventFullImport": true
+                },
+            }]
+  ],
+  "env": {
+    "development": {
+      "presets": ["react-hmre"]
+    },
+    "test": {
+      "plugins": ["transform-es2015-modules-commonjs"]
+    }
+  }
+}
+>>>>>>> a43b3823b062de6e7da27e692def8042fa1e75a2

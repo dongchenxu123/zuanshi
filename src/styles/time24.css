@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .Time24Item{
     width: 24px;
     height: 24px;
@@ -6,12 +7,23 @@
 .TimeItemStyleCb{
    visibility: hidden;
 }
+=======
+.Time24Item{
+    width: 24px;
+    height: 24px;
+    background-color: #eee;
+}
+.TimeItemStyleCb{
+   visibility: hidden;
+}
+>>>>>>> a43b3823b062de6e7da27e692def8042fa1e75a2
 .Time24Item .labeltxt{
     position: absolute;
     z-index: 2;
     user-select: none;
 }
 .Time24Item .bg{
+<<<<<<< HEAD
   background-color: #eee;
 }
 .itemChecked .labeltxt{
@@ -23,3 +35,16 @@
 .TimeItemStyleCb:checked .TimeItemStyleCb{
     background-color: #1DA57A
 }
+=======
+  background-color: #eee;
+}
+.itemChecked .labeltxt{
+     color: #1DA57A;
+}
+.itemChecked .Time24Item .bg{
+    background-color: #1DA57A
+}
+.TimeItemStyleCb:checked .TimeItemStyleCb{
+    background-color: #1DA57A
+}
+>>>>>>> a43b3823b062de6e7da27e692def8042fa1e75a2
